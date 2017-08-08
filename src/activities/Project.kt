@@ -28,4 +28,12 @@ public class Project (
             dateOfCreation = _dateOfCreation
     }
 
+    override fun equals(other: Any?) =
+        when {
+            (this === other) -> true
+            (javaClass != other?.javaClass) -> false
+            else -> projectName == (other as Project).projectName
+        }
+
+    override fun hashCode() = Objects.hashCode(projectName)
 }

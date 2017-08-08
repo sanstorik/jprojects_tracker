@@ -9,17 +9,17 @@ import activities.Activity
 interface DatabaseConnection <T>  where T : Activity {
     /**
      * Store [obj] in the file.
-     * @param obj stored object
+     * @param obj stored objects
      * @param holderName name of the file that holds data,
      * for example holderJson.txt, sqliteHolder.db
      * @return false if couln't store object
      */
-    fun save(obj : T, holderName : String) : Boolean
+    fun save(obj : Set<T>, holderName : String) : Boolean
 
     /**
-     * Reading object from file
+     * Reading objects from file
      * @param holderName name of the file that holds data.
      * @return retrieved object
      */
-    fun read(holderName: String) : T
+    fun read(holderName: String) : Set<T>
 }
