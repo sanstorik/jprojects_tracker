@@ -15,17 +15,13 @@ public abstract class Activity (
         private var _timeSpentInSec : Int = 0,
         private var _timeSpentAfkInSec : Int = 0,
         private var _timerStartsCount : Int = 0,
-        private val _focusContextMap : Map<String, Int>? = null
+        _focusContextMap : Map<String, Int>? = null
 ) {
     lateinit var focusContextAnalyzer : FocusContextAnalyzer
         private set
 
     init {
-        focusContextAnalyzer = if (_focusContextMap != null) {
-            FocusContextAnalyzer(_focusContextMap)
-        } else {
-            FocusContextAnalyzer()
-        }
+        focusContextAnalyzer = FocusContextAnalyzer(_focusContextMap)
     }
 
     var keysClickedCount : Int
@@ -80,14 +76,12 @@ public abstract class Activity (
  * Class for keeping track of visited and time spent
  * on certain contexts. In charge of their analyses.
  */
-public class FocusContextAnalyzer {
+public class FocusContextAnalyzer (_map : Map<String, Int>?) {
     private val _visitedContexts : HashMap<String, Int> = HashMap()
-
-    public constructor(map : Map<String, Int>) {
-        _visitedContexts.putAll(map)
+    init {
+        if (_map != null) _visitedContexts.putAll(_map)
     }
 
-    public constructor()
 
     /**
      * Adding time to a particular application/window etc.
