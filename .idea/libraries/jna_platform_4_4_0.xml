@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jna-platform-4.4.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/native_jars/jna-platform-4.4.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
