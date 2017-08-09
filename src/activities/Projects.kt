@@ -22,10 +22,24 @@ object Projects : ConnectionHolder<Project> ("projectsJson.txt", ProjectConnecti
         public fun sort(comparator: (one: Project, two: Project) -> Int)
                 = _projects.toSortedSet(Comparator(comparator))
 
+        /**
+         * @return true if adding was sucessfull,
+         * false if it exists allready
+         */
         public fun add(project: Project) : Boolean {
             if (_projects.contains(project)) return false
 
             _projects.add(project)
+            return true;
+        }
+
+        /**
+         * @return true if deleted, false otherwise
+         */
+        public fun remove(project : Project) : Boolean {
+            if (!_projects.contains(project)) return false
+
+            _projects.remove(project)
             return true;
         }
 
