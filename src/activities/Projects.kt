@@ -26,22 +26,13 @@ object Projects : ConnectionHolder<Project> ("projectsJson.txt", ProjectConnecti
          * @return true if adding was sucessfull,
          * false if it exists allready
          */
-        public fun add(project: Project) : Boolean {
-            if (_projects.contains(project)) return false
-
-            _projects.add(project)
-            return true;
-        }
+        public fun add(project: Project) = _projects.add(project)
 
         /**
-         * @return true if deleted, false otherwise
+         * @return true if deleted,
+         * false otherwise
          */
-        public fun remove(project : Project) : Boolean {
-            if (!_projects.contains(project)) return false
-
-            _projects.remove(project)
-            return true;
-        }
+        public fun remove(project : Project) = _projects.remove(project)
 
         public fun getProjects() = Collections.unmodifiableSet(_projects)
     }
