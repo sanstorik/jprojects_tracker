@@ -8,17 +8,20 @@ import java.util.*
 public class Project (
         public val projectName : String,
         _dateOfCreation : Calendar? = null,
-        private var _keysClickedCount : Int = 0,
-        private var _mouseTravelled : Int = 0,
-        private var _mouseClickedCount : Int = 0,
-        private var _timeSpentInSec : Int = 0,
-        private var _timeSpentAfkInSec : Int = 0,
-        private var _timerStartsCount : Int = 0,
-        _focusContextMap : Map<String, Int>? = null
-) : Activity (_keysClickedCount, _mouseTravelled,
+        _keysClickedCount : Int = 0,
+        _mouseTravelled : Int = 0,
+        _mouseClickedCount : Int = 0,
+        _timeSpentInSec : Int = 0,
+        _timeSpentAfkInSec : Int = 0,
+        _timerStartsCount : Int = 0,
+        _focusContextMap : Map<String, Long>? = null,
+        _keysContextMap : Map<String, Int>? = null
+)
+    : Activity (_keysClickedCount, _mouseTravelled,
         _mouseClickedCount, _timeSpentInSec,
         _timeSpentAfkInSec, _timerStartsCount,
-        _focusContextMap) {
+        _focusContextMap, _keysContextMap) {
+
     lateinit var dateOfCreation : Calendar
         private set
     init {

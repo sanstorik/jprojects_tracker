@@ -47,7 +47,6 @@ object Projects : ConnectionHolder<Project> ("projectsJson.txt", ProjectConnecti
      */
     public fun info() = _projectsInfo
 
-    private fun saveChanges() {
-        _connection.save(_projectsInfo.getProjects(), _defaultHolderName)
-    }
+    private fun saveChanges() = _connection.save(_projectsInfo.getProjects(), _defaultHolderName)
+
 }

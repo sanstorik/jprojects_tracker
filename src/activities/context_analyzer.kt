@@ -6,15 +6,15 @@ import java.util.*
  * Class for keeping track of visited contexts and time spent
  * on them. In charge of their analyses.
  */
-public class FocusContextAnalyzer (_map: Map<String, Int>? = null) {
-    private val _analyser : ContextAnalyzer<String, Int> = ContextAnalyzer(_map)
+public class FocusContextAnalyzer (_map: Map<String, Long>? = null) {
+    private val _analyser : ContextAnalyzer<String, Long> = ContextAnalyzer(_map)
 
     /**
      * Adding time to a particular application/window etc.
-     * @param seconds time in seconds
+     * @param seconds time in miliseconds
      */
-    fun addTimeSpentOnContext(contextName: String, seconds: Int) {
-        _analyser.addValue(contextName, seconds)
+    fun addTimeSpentOnContext(contextName: String, ms: Long) {
+        _analyser.addValue(contextName, ms)
     }
 
     fun getVisitedContexts() = _analyser.getContexts()

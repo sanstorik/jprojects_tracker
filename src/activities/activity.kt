@@ -6,19 +6,17 @@ package activities
  * information about user actions.
  */
 public abstract class Activity (
-        private var _keysClickedCount : Int = 0,
+        private val _keysClickedCount : Int = 0,
         private var _mouseTravelled : Int = 0,
         private var _mouseClickedCount : Int = 0,
         private var _timeSpentInSec : Int = 0,
         private var _timeSpentAfkInSec : Int = 0,
         private var _timerStartsCount : Int = 0,
-        _focusContextMap : Map<String, Int>? = null,
+        _focusContextMap : Map<String, Long>? = null,
         _keysContextMap : Map<String, Int>? = null
 ) {
-    var focusContextAnalyzer : FocusContextAnalyzer = FocusContextAnalyzer(_focusContextMap)
-        private set
-    var keysContextAnalyser : KeysContextAnalyzer = KeysContextAnalyzer(_keysContextMap, _keysClickedCount)
-        private set
+    val focusContextAnalyzer : FocusContextAnalyzer = FocusContextAnalyzer(_focusContextMap)
+    val keysContextAnalyser : KeysContextAnalyzer = KeysContextAnalyzer(_keysContextMap, _keysClickedCount)
 
     /**
      * Distance of mouse movements in pixels
@@ -44,7 +42,6 @@ public abstract class Activity (
         private set(it) { _timerStartsCount = it}
         get() = _timeSpentAfkInSec
 
-    public fun keyClicked(key : String) = keysContextAnalyser.increaseKeysPressed(key)
 
     public fun mouseClicked() {
         _mouseClickedCount++
