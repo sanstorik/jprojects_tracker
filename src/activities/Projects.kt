@@ -34,12 +34,11 @@ object Projects : ConnectionHolder<Project> ("projectsJson.txt", ProjectConnecti
 
     private val _projectsInfo : ProjectsInfo = ProjectsInfo()
     init {
-        println("hello")
-        println(_projectsInfo.get("zzz"))
+        _connection = ProjectConnectionJson()
     }
 
     override fun import(fileName: String) {
-        val projSet = connection.read(fileName)
+        val projSet = _connection.read(fileName)
         projSet.forEach { _projectsInfo.add(it) }
     }
 
@@ -49,7 +48,6 @@ object Projects : ConnectionHolder<Project> ("projectsJson.txt", ProjectConnecti
     public fun info() = _projectsInfo
 
     private fun saveChanges() {
-        connection.save(_projectsInfo.getProjects(), defaultHolderName)
+        _connection.save(_projectsInfo.getProjects(), _defaultHolderName)
     }
-
 }

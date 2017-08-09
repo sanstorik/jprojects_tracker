@@ -1,8 +1,5 @@
 package activities
 
-import java.util.*
-import kotlin.collections.HashMap
-
 /**
  * Base class for all activities which we
  * are going to track. Holds all basic
@@ -15,18 +12,13 @@ public abstract class Activity (
         private var _timeSpentInSec : Int = 0,
         private var _timeSpentAfkInSec : Int = 0,
         private var _timerStartsCount : Int = 0,
-        _focusContextMap : Map<String, Int>? = null
+        _focusContextMap : Map<String, Int>? = null,
+        _keysContextMap : Map<String, Int>? = null
 ) {
-    lateinit var focusContextAnalyzer : FocusContextAnalyzer
+    var focusContextAnalyzer : FocusContextAnalyzer = FocusContextAnalyzer(_focusContextMap)
         private set
-
-    init {
-        focusContextAnalyzer = FocusContextAnalyzer(_focusContextMap)
-    }
-
-    var keysClickedCount : Int
-        private set(it) { _keysClickedCount = it }
-        get() = _keysClickedCount
+    var keysContextAnalyser : KeysContextAnalyzer = KeysContextAnalyzer(_keysContextMap, _keysClickedCount)
+        private set
 
     /**
      * Distance of mouse movements in pixels
@@ -52,11 +44,15 @@ public abstract class Activity (
         private set(it) { _timerStartsCount = it}
         get() = _timeSpentAfkInSec
 
-    public fun keyClicked(key : Char) = _keysClickedCount++
+    public fun keyClicked(key : String) = keysContextAnalyser.increaseKeysPressed(key)
 
-    public fun mouseClicked() = _mouseClickedCount++
+    public fun mouseClicked() {
+        _mouseClickedCount++
+    }
 
-    public fun increaseTimeStarts() = _timerStartsCount++
+    public fun increaseTimeStarts() {
+        _timerStartsCount++
+    }
 
     public fun increaseMouseTravelled(distance : Int) {
         _mouseTravelled += distance
@@ -69,35 +65,4 @@ public abstract class Activity (
     public fun increaseTimeSpentAfk(seconds : Int) {
         _timeSpentAfkInSec += seconds
     }
-}
-
-
-/**
- * Class for keeping track of visited and time spent
- * on certain contexts. In charge of their analyses.
- */
-public class FocusContextAnalyzer (_map : Map<String, Int>?) {
-    private val _visitedContexts : HashMap<String, Int> = HashMap()
-    init {
-        if (_map != null) _visitedContexts.putAll(_map)
-    }
-
-
-    /**
-     * Adding time to a particular application/window etc.
-     * @param seconds time in seconds
-     */
-    fun addTimeSpentOnContext(contextName : String, seconds : Int) {
-        if (_visitedContexts.containsKey(contextName)) {
-            val value = _visitedContexts.getValue(contextName)
-            _visitedContexts.put(contextName, value + seconds);
-        } else {
-            _visitedContexts.put(contextName, seconds);
-        }
-    }
-
-    fun getVisitedContexts() = Collections.unmodifiableMap(_visitedContexts)
-
-    fun sort(comparable: Comparator<String>) = _visitedContexts.toSortedMap(comparable)
-
 }

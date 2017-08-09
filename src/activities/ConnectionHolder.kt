@@ -7,16 +7,16 @@ import database.DatabaseConnection
  * connection for activity.
  */
 abstract class ConnectionHolder <T> (
-        protected val defaultHolderName : String,
-        protected var connection : DatabaseConnection<T>
+        protected val _defaultHolderName : String,
+        protected var _connection : DatabaseConnection<T>
 ) where T : Activity {
 
     /**
      * copy data to other source
      */
     public fun export(fileName : String) {
-        val objSet = connection.read(defaultHolderName)
-        connection.save(objSet, fileName)
+        val objSet = _connection.read(_defaultHolderName)
+        _connection.save(objSet, fileName)
     }
 
     /**

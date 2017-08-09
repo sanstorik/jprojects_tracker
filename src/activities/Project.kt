@@ -19,13 +19,12 @@ public class Project (
         _mouseClickedCount, _timeSpentInSec,
         _timeSpentAfkInSec, _timerStartsCount,
         _focusContextMap) {
-
     lateinit var dateOfCreation : Calendar
-       private set
-
+        private set
     init {
-        if (_dateOfCreation != null)
-            dateOfCreation = _dateOfCreation
+        dateOfCreation =
+                if(_dateOfCreation != null) _dateOfCreation
+                else Calendar.getInstance()
     }
 
     override fun equals(other: Any?) =
@@ -36,4 +35,6 @@ public class Project (
         }
 
     override fun hashCode() = Objects.hashCode(projectName)
+
+    override fun toString(): String = projectName
 }
