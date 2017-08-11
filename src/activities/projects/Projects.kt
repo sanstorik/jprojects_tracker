@@ -1,6 +1,8 @@
-package activities
+package activities.projects
 
+import database.ConnectionHolder
 import database.ProjectConnectionJson
+import java.io.File
 import java.util.*
 
 /**
@@ -8,14 +10,14 @@ import java.util.*
  * Has the information about all projects.
  *
  */
-object Projects : ConnectionHolder<Project> ("projectsJson.txt", ProjectConnectionJson()) {
+object Projects : ConnectionHolder<Project>("res/databases/projectsJson.json", ProjectConnectionJson()) {
     /**
      * Class with all projects, which controls
      * the input and output of data in application
      * connected with projects.
      */
     public class ProjectsInfo {
-        private val _projects: HashSet<Project> = HashSet()
+        private val _projects: MutableSet<Project> = HashSet()
 
         public fun get(name: String) = _projects.find { it.projectName == name }
 
@@ -23,8 +25,8 @@ object Projects : ConnectionHolder<Project> ("projectsJson.txt", ProjectConnecti
                 = _projects.toSortedSet(Comparator(comparator))
 
         /**
-         * @return true if adding was sucessfull,
-         * false if it exists allready
+         * @return true if adding was successful,
+         * false if it exists already
          */
         public fun add(project: Project) = _projects.add(project)
 
@@ -32,14 +34,14 @@ object Projects : ConnectionHolder<Project> ("projectsJson.txt", ProjectConnecti
          * @return true if deleted,
          * false otherwise
          */
-        public fun remove(project : Project) = _projects.remove(project)
+        public fun remove(project: Project) = _projects.remove(project)
 
-        public fun getProjects() = Collections.unmodifiableSet(_projects)
+        public fun getProjects() : Set<Project> = _projects
     }
 
     private val _projectsInfo : ProjectsInfo = ProjectsInfo()
     init {
-        _connection = ProjectConnectionJson()
+        initStartingConfiguration()
     }
 
     override fun import(fileName: String) {
@@ -52,6 +54,5 @@ object Projects : ConnectionHolder<Project> ("projectsJson.txt", ProjectConnecti
      */
     public fun info() = _projectsInfo
 
-    private fun saveChanges() = _connection.save(_projectsInfo.getProjects(), _defaultHolderName)
-
+    public fun saveChanges() = _connection.save(_projectsInfo.getProjects(), _defaultHolderName)
 }

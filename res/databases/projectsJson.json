@@ -1,0 +1,32 @@
+{
+  "zalupa": {
+    "mouseClickedCount": 0,
+    "mouseTravelled": 0,
+    "timeSpentAfkInSec": 0,
+    "timeSpentInSec": 0,
+    "timerStartsCount": 0,
+    "focusContext": {
+      "visitedContextMap": "{}"
+    },
+    "keyContext": {
+      "keyContextMap": "{}",
+      "clickedTotalCount": 0
+    },
+    "dateOfCreation": "{\"year\":2017,\"month\":7,\"dayOfMonth\":11,\"hourOfDay\":14,\"minute\":56,\"second\":24}"
+  },
+  "zzz": {
+    "mouseClickedCount": 0,
+    "mouseTravelled": 0,
+    "timeSpentAfkInSec": 0,
+    "timeSpentInSec": 0,
+    "timerStartsCount": 0,
+    "focusContext": {
+      "visitedContextMap": "{}"
+    },
+    "keyContext": {
+      "keyContextMap": "{}",
+      "clickedTotalCount": 0
+    },
+    "dateOfCreation": "{\"year\":2017,\"month\":7,\"dayOfMonth\":11,\"hourOfDay\":14,\"minute\":56,\"second\":24}"
+  }
+}

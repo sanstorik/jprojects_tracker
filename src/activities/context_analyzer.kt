@@ -48,7 +48,7 @@ public class KeysContextAnalyzer (_map: Map<String, Int>? = null, private var _k
 
 
 private class ContextAnalyzer <K, V> (_map: Map<K, V>?) where V : Number {
-    private val _contexts : HashMap<K, V> = HashMap()
+    private val _contexts : MutableMap<K, V> = HashMap()
     init {
         if (_map != null) _contexts.putAll(_map)
     }
@@ -62,7 +62,7 @@ private class ContextAnalyzer <K, V> (_map: Map<K, V>?) where V : Number {
         }
     }
 
-    fun getContexts() = Collections.unmodifiableMap(_contexts)
+    fun getContexts() : Map<K,V> = _contexts
 
     fun sort(comparator: (one : K, two : K) -> Int ) = _contexts.toSortedMap(Comparator(comparator))
 }

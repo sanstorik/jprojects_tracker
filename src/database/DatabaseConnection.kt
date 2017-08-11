@@ -8,17 +8,18 @@ import activities.Activity
  */
 interface DatabaseConnection <T>  where T : Activity {
     /**
-     * Store [obj] in the file.
+     * Store [obj] in the file. Creates new file if
+     * it didn't exist before.
      * @param obj stored objects
      * @param holderName name of the file that holds data,
      * for example holderJson.txt, sqliteHolder.db
-     * @return false if couln't store object
      */
-    fun save(obj : Set<T>, holderName : String) : Boolean
+    fun save(obj : Set<T>, holderName : String)
 
     /**
      * Reading objects from file
      * @param holderName name of the file that holds data.
+     * @throws NoSuchFileException no file to read json
      * @return retrieved object
      */
     fun read(holderName: String) : Set<T>
