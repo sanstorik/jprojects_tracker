@@ -1,7 +1,5 @@
 import activities.projects.Project
 import activities.projects.Projects
-import native_hooks.ActivityGlobalListener
-import java.util.*
 
 fun main(args: Array<String>) {
     val project = Projects.info().add(Project("zzz"))

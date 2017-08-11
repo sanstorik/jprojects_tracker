@@ -1,7 +1,6 @@
 package database
 
 import activities.Activity
-import activities.projects.Projects
 import java.io.File
 
 /**

@@ -2,7 +2,6 @@ package activities.projects
 
 import database.ConnectionHolder
 import database.ProjectConnectionJson
-import java.io.File
 import java.util.*
 
 /**

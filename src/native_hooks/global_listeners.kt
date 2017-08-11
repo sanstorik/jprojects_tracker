@@ -9,9 +9,7 @@ import org.jnativehook.mouse.NativeMouseEvent
 import org.jnativehook.mouse.NativeMouseListener
 import sun.plugin.dom.exception.InvalidStateException
 import java.util.logging.Level
-import java.util.logging.LogManager
 import java.util.logging.Logger
-import kotlin.reflect.jvm.jvmName
 
 public class ActivityGlobalListener private constructor(private val _activity: Activity) {
     private val keyListenerInitializer: ListenerInitializer = ActivityKeyListener(_activity)
@@ -20,12 +18,12 @@ public class ActivityGlobalListener private constructor(private val _activity: A
 
     /**
      * Stops tracking
-     * @throws InvalidStateException if allready tracking
+     * @throws InvalidStateException if already tracking
      */
     @Throws(InvalidStateException::class)
     public fun startTracking() {
         if (isTracking)
-            throw InvalidStateException("$_activity is allready being tracked")
+            throw InvalidStateException("$_activity is already being tracked")
         isTracking = true
         keyListenerInitializer.init()
         mouseListenerInitializer.init()
@@ -46,6 +44,9 @@ public class ActivityGlobalListener private constructor(private val _activity: A
 
 
     companion object Factory {
+
+        @JvmStatic
+        private val openedListeners : MutableSet<ActivityGlobalListener> = HashSet<ActivityGlobalListener>()
         init {
             try{
                 Logger.getLogger(GlobalScreen::class.java.`package`.name).level = Level.OFF
@@ -54,9 +55,6 @@ public class ActivityGlobalListener private constructor(private val _activity: A
                 throw InvalidStateException("Couldn't register native hook  - $e")
             }
         }
-
-        @JvmStatic
-        private val openedListeners : HashSet<ActivityGlobalListener> = HashSet<ActivityGlobalListener>()
 
         /**
          * Creates new tracking connection on specific activity,
@@ -68,7 +66,7 @@ public class ActivityGlobalListener private constructor(private val _activity: A
         @JvmStatic
         public fun init(activity : Activity) : ActivityGlobalListener {
             if (!GlobalScreen.isNativeHookRegistered())
-                throw InvalidStateException("Listener cannot be aplied. Register it first.")
+                throw InvalidStateException("Listener cannot be applied. Register it first.")
 
             val openedActivity = openedListeners.firstOrNull { it._activity == activity }
 

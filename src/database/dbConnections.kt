@@ -8,7 +8,6 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import org.ietf.jgss.GSSName
 import java.io.*
 import java.util.*
 
@@ -52,8 +51,8 @@ public class ProjectConnectionJson : DatabaseConnection<Project> {
                     _timeSpentAfkInSec = project.get("timeSpentAfkInSec").asInt,
                     _timeSpentInSec = project.get("timeSpentInSec").asInt,
                     _timerStartsCount = project.get("timerStartsCount").asInt,
-                    _focusContextMap = gson.fromJson("32432", Map::class.java) as Map<String,Long>)
-                    //TODO:_keysClickedCount =
+                    _focusContextMap = gson.fromJson("focusContext", Map::class.java) as Map<String,Long>)
+                    //TODO:_keysContextMap = getKeyAnalyzerFromJson(project)
             )
         }
 
@@ -111,6 +110,10 @@ private fun keyAnalyzerJsonObject(keyContext: KeysContextAnalyzer): JsonObject {
     keyContextObject.addProperty("clickedTotalCount", keyContext.keysClicked)
 
     return keyContextObject
+}
+
+private fun getKeyAnalyzerFromJson(obj: JsonElement): Map<String, Long> {
+    return mapOf()
 }
 
 /*private fun readActivityJsonProperties(jsonElement : JsonElement) {
