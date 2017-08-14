@@ -1,7 +1,6 @@
 {
   "zalupa": {
     "mouseClickedCount": 0,
-    "mouseTravelled": 0,
     "timeSpentAfkInSec": 0,
     "timeSpentInSec": 0,
     "timerStartsCount": 0,
@@ -12,21 +11,20 @@
       "keyContextMap": "{}",
       "clickedTotalCount": 0
     },
-    "dateOfCreation": "{\"year\":2017,\"month\":7,\"dayOfMonth\":14,\"hourOfDay\":15,\"minute\":21,\"second\":35}"
+    "dateOfCreation": "{\"year\":2017,\"month\":7,\"dayOfMonth\":14,\"hourOfDay\":16,\"minute\":48,\"second\":12}"
   },
   "zzz": {
-    "mouseClickedCount": 22,
-    "mouseTravelled": 0,
+    "mouseClickedCount": 2,
     "timeSpentAfkInSec": 0,
     "timeSpentInSec": 0,
     "timerStartsCount": 0,
     "focusContext": {
-      "visitedContextMap": "{\"Telegram.exe\":2250.0,\"idea64.exe\":1750.0}"
+      "visitedContextMap": "{\"Skype.exe\":1500.0,\"idea64.exe\":8000.0}"
     },
     "keyContext": {
-      "keyContextMap": "{\"4\":1.0,\"U\":1.0,\"H\":4.0,\"Y\":1.0,\"I\":1.0,\"J\":4.0,\"K\":6.0,\"Ctrl\":1.0}",
-      "clickedTotalCount": 19
+      "keyContextMap": "{\"Backspace\":1,\"Escape\":1,\"T\":3.0,\"U\":2.0,\"G\":1,\"H\":1,\"Enter\":1,\"Y\":2.0,\"I\":1,\"J\":2.0}",
+      "clickedTotalCount": 15
     },
-    "dateOfCreation": "{\"year\":2017,\"month\":7,\"dayOfMonth\":14,\"hourOfDay\":15,\"minute\":21,\"second\":35}"
+    "dateOfCreation": "{\"year\":2017,\"month\":7,\"dayOfMonth\":14,\"hourOfDay\":16,\"minute\":48,\"second\":12}"
   }
 }

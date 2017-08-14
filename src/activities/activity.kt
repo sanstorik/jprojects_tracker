@@ -6,28 +6,24 @@ package activities
  * information about user actions.
  */
 public abstract class Activity (
-        _keysClickedCount : Int = 0,
-        private var _mouseTravelled : Int = 0,
-        private var _mouseClickedCount : Int = 0,
-        private var _timeSpentInSec : Int = 0,
-        private var _timeSpentAfkInSec : Int = 0,
-        private var _timerStartsCount : Int = 0,
-        _focusContextMap : Map<String, Long>? = null,
-        _keysContextMap : Map<String, Int>? = null
+        _keysClickedCount: Int = 0,
+        private var _mouseClickedCount: Int = 0,
+        private var _timeSpentInSec: Int = 0,
+        private var _timeSpentAfkInSec: Int = 0,
+        private var _timerStartsCount: Int = 0,
+        _focusContextMap: Map<String, Long>? = null,
+        _keysContextMap: Map<String, Int>? = null
 ) {
-    val focusContextAnalyzer : FocusContextAnalyzer = FocusContextAnalyzer(_focusContextMap)
-    val keysContextAnalyser : KeyContextAnalyzer = KeyContextAnalyzer(_keysContextMap, _keysClickedCount)
+    val focusContextAnalyzer: FocusContextAnalyzer = FocusContextAnalyzer(_focusContextMap)
+    val keysContextAnalyser: KeyContextAnalyzer = KeyContextAnalyzer(_keysContextMap, _keysClickedCount)
 
     /**
      * Distance of mouse movements in pixels
      */
-    var mouseTravelled : Int
-        private set(it) { _mouseTravelled = it }
-        get() = _mouseTravelled
-    var mouseClickedCount : Int
+    var mouseClickedCount: Int
         private set(it) { _mouseClickedCount = it }
         get() = _mouseClickedCount
-    var timeSpentInSec : Int
+    var timeSpentInSec: Int
         private set(it) { _timeSpentInSec = it }
         get() = _timeSpentInSec
 
@@ -35,10 +31,10 @@ public abstract class Activity (
      * Time when used didn't perform any action
      * in the last 30 seconds.
      */
-    var timeSpentAfkInSec : Int
+    var timeSpentAfkInSec: Int
         private set(it) { _timeSpentAfkInSec = it }
         get() = _timeSpentAfkInSec
-    var timerStartsCount : Int
+    var timerStartsCount: Int
         private set(it) { _timerStartsCount = it}
         get() = _timeSpentAfkInSec
 
@@ -51,15 +47,11 @@ public abstract class Activity (
         _timerStartsCount++
     }
 
-    public fun increaseMouseTravelled(distance : Int) {
-        _mouseTravelled += distance
-    }
-
-    public fun increaseTimeSpent(seconds : Int) {
+    public fun increaseTimeSpent(seconds: Int) {
         _timeSpentInSec += seconds
     }
 
-    public fun increaseTimeSpentAfk(seconds : Int) {
+    public fun increaseTimeSpentAfk(seconds: Int) {
         _timeSpentAfkInSec += seconds
     }
 }

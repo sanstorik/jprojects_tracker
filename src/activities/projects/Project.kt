@@ -10,7 +10,6 @@ public class Project (
         public val projectName : String,
         _dateOfCreation: Calendar? = null,
         _keysClickedCount: Int = 0,
-        _mouseTravelled: Int = 0,
         _mouseClickedCount: Int = 0,
         _timeSpentInSec: Int = 0,
         _timeSpentAfkInSec: Int = 0,
@@ -18,10 +17,10 @@ public class Project (
         _focusContextMap: Map<String, Long>? = null,
         _keysContextMap: Map<String, Int>? = null
 )
-    : Activity(_keysClickedCount, _mouseTravelled,
-        _mouseClickedCount, _timeSpentInSec,
-        _timeSpentAfkInSec, _timerStartsCount,
-        _focusContextMap, _keysContextMap) {
+    : Activity(_keysClickedCount, _mouseClickedCount,
+        _timeSpentInSec, _timeSpentAfkInSec,
+        _timerStartsCount, _focusContextMap,
+        _keysContextMap) {
 
     var dateOfCreation = (_dateOfCreation ?: Calendar.getInstance())!!
         private set

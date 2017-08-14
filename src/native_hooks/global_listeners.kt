@@ -52,12 +52,13 @@ public class ActivityGlobalListener private constructor(private val _activity: A
     companion object Factory {
 
         @JvmStatic
-        private val openedListeners : MutableSet<ActivityGlobalListener> = HashSet()
+        private val openedListeners: MutableSet<ActivityGlobalListener> = HashSet()
+
         init {
             try {
                 Logger.getLogger(GlobalScreen::class.java.`package`.name).level = Level.OFF
                 GlobalScreen.registerNativeHook()
-            } catch (e : NativeHookException) {
+            } catch (e: NativeHookException) {
                 throw InvalidStateException("Couldn't register native hook  - $e")
             }
         }
@@ -70,7 +71,7 @@ public class ActivityGlobalListener private constructor(private val _activity: A
          * @throws InvalidStateException if listener cannot be applied
          */
         @JvmStatic
-        public fun init(activity : Activity) : ActivityGlobalListener {
+        public fun init(activity: Activity): ActivityGlobalListener {
             if (!GlobalScreen.isNativeHookRegistered())
                 throw InvalidStateException("Listener cannot be applied. Register it first.")
 
@@ -87,13 +88,13 @@ public class ActivityGlobalListener private constructor(private val _activity: A
     }
 }
 
-internal class ActivityKeyListener (private val _activity : Activity)
+internal class ActivityKeyListener(private val _activity: Activity)
     : NativeKeyListener, ListenerInitializer {
 
     override fun nativeKeyTyped(p0: NativeKeyEvent?) {}
 
     override fun nativeKeyPressed(p0: NativeKeyEvent?) =
-        _activity.keysContextAnalyser.increaseKeysPressed(NativeKeyEvent.getKeyText(p0?.keyCode!!))
+            _activity.keysContextAnalyser.increaseKeysPressed(NativeKeyEvent.getKeyText(p0?.keyCode!!))
 
     override fun nativeKeyReleased(p0: NativeKeyEvent?) {}
 
@@ -106,10 +107,10 @@ internal class ActivityKeyListener (private val _activity : Activity)
     }
 }
 
-internal class ActivityMouseListener (private val _activity: Activity)
+internal class ActivityMouseListener(private val _activity: Activity)
     : NativeMouseListener, ListenerInitializer {
 
-    override fun nativeMousePressed(p0: NativeMouseEvent?)  = _activity.mouseClicked()
+    override fun nativeMousePressed(p0: NativeMouseEvent?) = _activity.mouseClicked()
 
     override fun nativeMouseClicked(p0: NativeMouseEvent?) {}
     override fun nativeMouseReleased(p0: NativeMouseEvent?) {}

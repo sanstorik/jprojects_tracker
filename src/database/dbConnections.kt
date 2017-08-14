@@ -46,7 +46,6 @@ public class ProjectConnectionJson : DatabaseConnection<Project> {
             val project : JsonObject = it.value.asJsonObject
             set.add(Project(projectName = it.key,
                     _mouseClickedCount = project.get("mouseClickedCount").asInt,
-                    _mouseTravelled = project.get("mouseTravelled").asInt,
                     _timeSpentAfkInSec = project.get("timeSpentAfkInSec").asInt,
                     _timeSpentInSec = project.get("timeSpentInSec").asInt,
                     _timerStartsCount = project.get("timerStartsCount").asInt,
@@ -83,7 +82,6 @@ public class ProjectConnectionJson : DatabaseConnection<Project> {
 
 private fun addActivityJsonProperties(jsonObject: JsonObject, activity: Activity) {
     jsonObject.addProperty("mouseClickedCount", activity.mouseClickedCount)
-    jsonObject.addProperty("mouseTravelled", activity.mouseTravelled)
     jsonObject.addProperty("timeSpentAfkInSec", activity.timeSpentAfkInSec)
     jsonObject.addProperty("timeSpentInSec", activity.timeSpentInSec)
     jsonObject.addProperty("timerStartsCount", activity.timerStartsCount)
