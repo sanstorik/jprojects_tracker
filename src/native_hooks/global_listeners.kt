@@ -11,7 +11,6 @@ import sun.plugin.dom.exception.InvalidStateException
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
-import kotlin.concurrent.timerTask
 
 public class ActivityGlobalListener private constructor(private val _activity: Activity) {
     private val keyListenerInitializer: ListenerInitializer = ActivityKeyListener(_activity)
@@ -43,7 +42,7 @@ public class ActivityGlobalListener private constructor(private val _activity: A
         if (!isTracking)
             throw InvalidStateException("$_activity is not being tracked yet")
 
-        isTracking = false;
+        isTracking = false
         keyListenerInitializer.disable()
         mouseListenerInitializer.disable()
         focusListenerInitializer.disable()
@@ -53,7 +52,7 @@ public class ActivityGlobalListener private constructor(private val _activity: A
     companion object Factory {
 
         @JvmStatic
-        private val openedListeners : MutableSet<ActivityGlobalListener> = HashSet<ActivityGlobalListener>()
+        private val openedListeners : MutableSet<ActivityGlobalListener> = HashSet()
         init {
             try {
                 Logger.getLogger(GlobalScreen::class.java.`package`.name).level = Level.OFF

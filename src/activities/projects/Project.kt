@@ -23,13 +23,8 @@ public class Project (
         _timeSpentAfkInSec, _timerStartsCount,
         _focusContextMap, _keysContextMap) {
 
-    lateinit var dateOfCreation : Calendar
+    var dateOfCreation = (_dateOfCreation ?: Calendar.getInstance())!!
         private set
-    init {
-        dateOfCreation =
-                if(_dateOfCreation != null) _dateOfCreation
-                else Calendar.getInstance()
-    }
 
     override fun equals(other: Any?) =
         when {

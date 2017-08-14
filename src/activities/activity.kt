@@ -6,7 +6,7 @@ package activities
  * information about user actions.
  */
 public abstract class Activity (
-        private val _keysClickedCount : Int = 0,
+        _keysClickedCount : Int = 0,
         private var _mouseTravelled : Int = 0,
         private var _mouseClickedCount : Int = 0,
         private var _timeSpentInSec : Int = 0,

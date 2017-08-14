@@ -21,7 +21,7 @@ abstract class ConnectionHolder <T> (
     }
 
     /**
-     * recieve data from other source
+     * receive data from other source
      */
     public abstract fun import(fileName: String)
 
