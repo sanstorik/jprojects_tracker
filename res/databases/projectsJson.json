@@ -12,21 +12,21 @@
       "keyContextMap": "{}",
       "clickedTotalCount": 0
     },
-    "dateOfCreation": "{\"year\":2017,\"month\":7,\"dayOfMonth\":11,\"hourOfDay\":14,\"minute\":56,\"second\":24}"
+    "dateOfCreation": "{\"year\":2017,\"month\":7,\"dayOfMonth\":14,\"hourOfDay\":15,\"minute\":21,\"second\":35}"
   },
   "zzz": {
-    "mouseClickedCount": 0,
+    "mouseClickedCount": 22,
     "mouseTravelled": 0,
     "timeSpentAfkInSec": 0,
     "timeSpentInSec": 0,
     "timerStartsCount": 0,
     "focusContext": {
-      "visitedContextMap": "{}"
+      "visitedContextMap": "{\"Telegram.exe\":2250.0,\"idea64.exe\":1750.0}"
     },
     "keyContext": {
-      "keyContextMap": "{}",
-      "clickedTotalCount": 0
+      "keyContextMap": "{\"4\":1.0,\"U\":1.0,\"H\":4.0,\"Y\":1.0,\"I\":1.0,\"J\":4.0,\"K\":6.0,\"Ctrl\":1.0}",
+      "clickedTotalCount": 19
     },
-    "dateOfCreation": "{\"year\":2017,\"month\":7,\"dayOfMonth\":11,\"hourOfDay\":14,\"minute\":56,\"second\":24}"
+    "dateOfCreation": "{\"year\":2017,\"month\":7,\"dayOfMonth\":14,\"hourOfDay\":15,\"minute\":21,\"second\":35}"
   }
 }

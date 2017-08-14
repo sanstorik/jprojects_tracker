@@ -2,7 +2,7 @@ package database
 
 import activities.Activity
 import activities.FocusContextAnalyzer
-import activities.KeysContextAnalyzer
+import activities.KeyContextAnalyzer
 import activities.projects.Project
 import com.google.gson.Gson
 import com.google.gson.JsonElement
@@ -17,17 +17,17 @@ import java.util.*
  */
 public class ProjectConnectionJson : DatabaseConnection<Project> {
 
-    override fun save(projects: Set<Project>, holderName: String) {
-        var file = File(holderName)
-        if (!file.exists() || file.isDirectory()) file.createNewFile()
+    override fun save(obj: Set<Project>, holderName: String) {
+        val file = File(holderName)
+        if (!file.exists() || file.isDirectory) file.createNewFile()
 
         BufferedWriter(OutputStreamWriter(FileOutputStream(file))).use {
-            it.write(getProjectSetJson(projects))
+            it.write(getProjectSetJson(obj))
         }
     }
 
     override fun read(holderName: String): Set<Project> {
-        var file = File(holderName)
+        val file = File(holderName)
         if (!file.exists() || file.isDirectory) {
             throw NoSuchFileException(file)
         }
@@ -37,9 +37,8 @@ public class ProjectConnectionJson : DatabaseConnection<Project> {
         )
     }
 
-    @SuppressWarnings("uncheked")
+    @Suppress("UNCHECKED_CAST")
     private fun readProjectsSet(json: JsonElement): Set<Project> {
-        val gson = Gson()
         val set = HashSet<Project>()
 
         val rootObject = json.asJsonObject
@@ -51,8 +50,9 @@ public class ProjectConnectionJson : DatabaseConnection<Project> {
                     _timeSpentAfkInSec = project.get("timeSpentAfkInSec").asInt,
                     _timeSpentInSec = project.get("timeSpentInSec").asInt,
                     _timerStartsCount = project.get("timerStartsCount").asInt,
-                    _focusContextMap = gson.fromJson("focusContext", Map::class.java) as Map<String,Long>)
-                    //TODO:_keysContextMap = getKeyAnalyzerFromJson(project)
+                    _focusContextMap = getFocusContextMap(project.get("focusContext")),
+                    _keysContextMap = getKeyContextMap(project.get("keyContext")),
+                    _keysClickedCount = getKeyContextClicked(project.get("keyContext")))
             )
         }
 
@@ -82,7 +82,6 @@ public class ProjectConnectionJson : DatabaseConnection<Project> {
 }
 
 private fun addActivityJsonProperties(jsonObject: JsonObject, activity: Activity) {
-    val gson = Gson()
     jsonObject.addProperty("mouseClickedCount", activity.mouseClickedCount)
     jsonObject.addProperty("mouseTravelled", activity.mouseTravelled)
     jsonObject.addProperty("timeSpentAfkInSec", activity.timeSpentAfkInSec)
@@ -102,7 +101,7 @@ private fun focusAnalyzerJsonObject(focus: FocusContextAnalyzer): JsonObject {
     return focusContextObject
 }
 
-private fun keyAnalyzerJsonObject(keyContext: KeysContextAnalyzer): JsonObject {
+private fun keyAnalyzerJsonObject(keyContext: KeyContextAnalyzer): JsonObject {
     val gson = Gson()
 
     val keyContextObject = JsonObject()
@@ -112,10 +111,13 @@ private fun keyAnalyzerJsonObject(keyContext: KeysContextAnalyzer): JsonObject {
     return keyContextObject
 }
 
-private fun getKeyAnalyzerFromJson(obj: JsonElement): Map<String, Long> {
-    return mapOf()
-}
+@Suppress("UNCHECKED_CAST")
+private fun getKeyContextMap(obj: JsonElement) =
+        Gson().fromJson(obj.asJsonObject.get("keyContextMap").asString, Map::class.java) as Map<String,Int>
 
-/*private fun readActivityJsonProperties(jsonElement : JsonElement) {
 
-}*/
+private fun getKeyContextClicked(obj: JsonElement) = obj.asJsonObject.get("clickedTotalCount").asInt
+
+@Suppress("UNCHECKED_CAST")
+private fun getFocusContextMap(obj: JsonElement) =
+     Gson().fromJson(obj.asJsonObject.get("visitedContextMap").asString, Map::class.java) as Map<String,Long>

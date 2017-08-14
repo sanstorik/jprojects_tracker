@@ -8,12 +8,15 @@ import org.jnativehook.keyboard.NativeKeyListener
 import org.jnativehook.mouse.NativeMouseEvent
 import org.jnativehook.mouse.NativeMouseListener
 import sun.plugin.dom.exception.InvalidStateException
+import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
+import kotlin.concurrent.timerTask
 
 public class ActivityGlobalListener private constructor(private val _activity: Activity) {
     private val keyListenerInitializer: ListenerInitializer = ActivityKeyListener(_activity)
     private val mouseListenerInitializer: ListenerInitializer = ActivityMouseListener(_activity)
+    private val focusListenerInitializer: ListenerInitializer = ActivityFocusListener(_activity)
     private var isTracking = false
 
     /**
@@ -24,9 +27,11 @@ public class ActivityGlobalListener private constructor(private val _activity: A
     public fun startTracking() {
         if (isTracking)
             throw InvalidStateException("$_activity is already being tracked")
+
         isTracking = true
         keyListenerInitializer.init()
         mouseListenerInitializer.init()
+        focusListenerInitializer.init()
     }
 
     /**
@@ -37,9 +42,11 @@ public class ActivityGlobalListener private constructor(private val _activity: A
     public fun stopTracking() {
         if (!isTracking)
             throw InvalidStateException("$_activity is not being tracked yet")
+
         isTracking = false;
         keyListenerInitializer.disable()
         mouseListenerInitializer.disable()
+        focusListenerInitializer.disable()
     }
 
 
@@ -48,7 +55,7 @@ public class ActivityGlobalListener private constructor(private val _activity: A
         @JvmStatic
         private val openedListeners : MutableSet<ActivityGlobalListener> = HashSet<ActivityGlobalListener>()
         init {
-            try{
+            try {
                 Logger.getLogger(GlobalScreen::class.java.`package`.name).level = Level.OFF
                 GlobalScreen.registerNativeHook()
             } catch (e : NativeHookException) {
@@ -84,11 +91,11 @@ public class ActivityGlobalListener private constructor(private val _activity: A
 internal class ActivityKeyListener (private val _activity : Activity)
     : NativeKeyListener, ListenerInitializer {
 
-    override fun nativeKeyTyped(p0: NativeKeyEvent?) {
-        println("activity $_activity " + NativeKeyEvent.getKeyText(p0?.keyCode!!))
-    }
+    override fun nativeKeyTyped(p0: NativeKeyEvent?) {}
 
-    override fun nativeKeyPressed(p0: NativeKeyEvent?) {}
+    override fun nativeKeyPressed(p0: NativeKeyEvent?) =
+        _activity.keysContextAnalyser.increaseKeysPressed(NativeKeyEvent.getKeyText(p0?.keyCode!!))
+
     override fun nativeKeyReleased(p0: NativeKeyEvent?) {}
 
     override fun init() {
@@ -100,7 +107,7 @@ internal class ActivityKeyListener (private val _activity : Activity)
     }
 }
 
-internal class ActivityMouseListener (val _activity: Activity)
+internal class ActivityMouseListener (private val _activity: Activity)
     : NativeMouseListener, ListenerInitializer {
 
     override fun nativeMousePressed(p0: NativeMouseEvent?)  = _activity.mouseClicked()
@@ -117,6 +124,9 @@ internal class ActivityMouseListener (val _activity: Activity)
     }
 }
 
+/**
+ * API for opening and closing listeners
+ */
 internal interface ListenerInitializer {
     fun init()
     fun disable()

@@ -16,7 +16,7 @@ public abstract class Activity (
         _keysContextMap : Map<String, Int>? = null
 ) {
     val focusContextAnalyzer : FocusContextAnalyzer = FocusContextAnalyzer(_focusContextMap)
-    val keysContextAnalyser : KeysContextAnalyzer = KeysContextAnalyzer(_keysContextMap, _keysClickedCount)
+    val keysContextAnalyser : KeyContextAnalyzer = KeyContextAnalyzer(_keysContextMap, _keysClickedCount)
 
     /**
      * Distance of mouse movements in pixels

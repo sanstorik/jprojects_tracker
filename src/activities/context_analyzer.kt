@@ -26,7 +26,7 @@ public class FocusContextAnalyzer (_map: Map<String, Long>? = null) {
  * Class for keeping track of pressed keys
  * on certain activity. In charge of their analyses.
  */
-public class KeysContextAnalyzer (_map: Map<String, Int>? = null, private var _keysClicked : Int) {
+public class KeyContextAnalyzer(_map: Map<String, Int>? = null, private var _keysClicked : Int) {
     private val _analyser : ContextAnalyzer<String, Int> = ContextAnalyzer(_map)
     var keysClicked : Int
         private set(it) { _keysClicked = it }
