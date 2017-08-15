@@ -13,6 +13,12 @@ import java.util.logging.Level
 import java.util.logging.Logger
 import kotlin.collections.ArrayList
 
+/**
+ * Holder for all listeners, that connects with activity,
+ * use startActivity() to begin tracking and stopTracking()
+ * to disable tracking. There exists only one copy for
+ * single activity.
+ */
 public class ActivityGlobalListener private constructor(private val _activity: Activity) {
     private val listeners : MutableList<ListenerInitializer> = ArrayList()
     private var isTracking = false
@@ -24,7 +30,7 @@ public class ActivityGlobalListener private constructor(private val _activity: A
     }
 
     /**
-     * Stops tracking
+     * Starts tracking
      * @throws InvalidStateException if already tracking
      */
     @Throws(InvalidStateException::class)
@@ -73,7 +79,6 @@ public class ActivityGlobalListener private constructor(private val _activity: A
          */
         @JvmStatic
         public fun of(activity: Activity): ActivityGlobalListener {
-            println(openedListeners.size)
             if (!GlobalScreen.isNativeHookRegistered())
                 throw InvalidStateException("Listener cannot be applied. Register it first.")
 
