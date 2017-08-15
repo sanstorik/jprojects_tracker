@@ -71,7 +71,8 @@ class ActivityFocusListener implements ListenerInitializer {
             IntByReference pointerByReference = new IntByReference();
             User32.INSTANCE.GetWindowThreadProcessId(User32.INSTANCE.GetForegroundWindow(), pointerByReference);
 
-            WinNT.HANDLE process = Kernel32.INSTANCE.OpenProcess(Kernel32.PROCESS_QUERY_INFORMATION | Kernel32.PROCESS_VM_READ,
+            WinNT.HANDLE process = Kernel32.INSTANCE.OpenProcess
+                    (Kernel32.PROCESS_QUERY_INFORMATION | Kernel32.PROCESS_VM_READ,
                     false, pointerByReference.getValue());
 
             Psapi.GetModuleBaseNameW(process, null, buffer, 512);
@@ -85,7 +86,7 @@ class ActivityFocusListener implements ListenerInitializer {
             ScriptEngine appleScript = new ScriptEngineManager().getEngineByName("AppleScript");
             try {
                 contextName = appleScript.eval(script).toString();
-            } catch (ScriptException e) { /*empty*/}
+            } catch (ScriptException e) { /*empty*/ }
         }
 
         return contextName;

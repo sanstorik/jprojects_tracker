@@ -85,6 +85,7 @@ public class ProjectConnectionJson : DatabaseConnection<Project> {
             Gson().fromJson(element.asString, Calendar::class.java)
 }
 
+
 internal class DaysConnectionJson: DatabaseConnection<Day> {
     override fun save(obj: Set<Day>, holderName: String) {
         val file = File(holderName)
@@ -96,7 +97,14 @@ internal class DaysConnectionJson: DatabaseConnection<Day> {
     }
 
     override fun read(holderName: String): Set<Day> {
-        return setOf()
+        val file = File(holderName)
+        if (!file.exists() || file.isDirectory) {
+            throw NoSuchFileException(file)
+        }
+
+        return readDaySet(
+                JsonParser().parse(BufferedReader(InputStreamReader(FileInputStream(file))))
+        )
     }
 
     private fun getDaysSetJson(days: Set<Day>): String {
@@ -120,7 +128,32 @@ internal class DaysConnectionJson: DatabaseConnection<Day> {
 
         return dayValues
     }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun readDaySet(json: JsonElement): Set<Day> {
+        val set = HashSet<Day>()
+
+        val rootObject = json.asJsonObject
+        rootObject.entrySet().forEach {
+            val project : JsonObject = it.value.asJsonObject
+            set.add(Day(date = getDayDate(project.get("date")),
+                    _timeActive = project.get("timeActive").asLong,
+                    _mouseClickedCount = project.get("mouseClickedCount").asInt,
+                    _timeSpentAfkInSec = project.get("timeSpentAfkInSec").asInt,
+                    _timeSpentInSec = project.get("timeSpentInSec").asInt,
+                    _timerStartsCount = project.get("timerStartsCount").asInt,
+                    _focusContextMap = getFocusContextMap(project.get("focusContext")),
+                    _keysContextMap = getKeyContextMap(project.get("keyContext")),
+                    _keysClickedCount = getKeyContextClicked(project.get("keyContext")))
+            )
+        }
+
+        return set
+    }
+    private fun getDayDate(element: JsonElement) =
+            Gson().fromJson(element.asString, activities.days.Date::class.java)
 }
+
 
 private fun addActivityJsonProperties(jsonObject: JsonObject, activity: Activity) {
     jsonObject.addProperty("mouseClickedCount", activity.mouseClickedCount)

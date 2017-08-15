@@ -72,7 +72,7 @@ public class ActivityGlobalListener private constructor(private val _activity: A
          * @throws InvalidStateException if listener cannot be applied
          */
         @JvmStatic
-        public fun init(activity: Activity): ActivityGlobalListener {
+        public fun of(activity: Activity): ActivityGlobalListener {
             println(openedListeners.size)
             if (!GlobalScreen.isNativeHookRegistered())
                 throw InvalidStateException("Listener cannot be applied. Register it first.")
