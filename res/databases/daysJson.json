@@ -1,0 +1,17 @@
+{
+  "15.8.2017": {
+    "mouseClickedCount": 2,
+    "timeSpentAfkInSec": 0,
+    "timeSpentInSec": 0,
+    "timerStartsCount": 0,
+    "focusContext": {
+      "visitedContextMap": "{\"idea64.exe\":9750.0}"
+    },
+    "keyContext": {
+      "keyContextMap": "{\"B\":1,\"E\":1,\"F\":2.0,\"G\":2.0,\"H\":3.0,\"J\":2.0,\"K\":2.0,\"F3\":2.0,\"F4\":1,\"R\":1,\"T\":3.0,\"5\":2.0,\"6\":2.0,\"W\":1,\"7\":1,\"Y\":1}",
+      "clickedTotalCount": 27
+    },
+    "date": "{\"day\":15,\"month\":8,\"year\":2017}",
+    "timeActive": 0
+  }
+}

@@ -3,6 +3,7 @@ package database
 import activities.Activity
 import activities.FocusContextAnalyzer
 import activities.KeyContextAnalyzer
+import activities.days.Day
 import activities.projects.Project
 import com.google.gson.Gson
 import com.google.gson.JsonElement
@@ -51,7 +52,8 @@ public class ProjectConnectionJson : DatabaseConnection<Project> {
                     _timerStartsCount = project.get("timerStartsCount").asInt,
                     _focusContextMap = getFocusContextMap(project.get("focusContext")),
                     _keysContextMap = getKeyContextMap(project.get("keyContext")),
-                    _keysClickedCount = getKeyContextClicked(project.get("keyContext")))
+                    _keysClickedCount = getKeyContextClicked(project.get("keyContext")),
+                    _dateOfCreation = getDateOfProjectCreation(project.get("dateOfCreation")))
             )
         }
 
@@ -77,6 +79,46 @@ public class ProjectConnectionJson : DatabaseConnection<Project> {
         projectValues.addProperty("dateOfCreation", calendarDate)
 
         return projectValues
+    }
+
+    private fun getDateOfProjectCreation(element: JsonElement) =
+            Gson().fromJson(element.asString, Calendar::class.java)
+}
+
+internal class DaysConnectionJson: DatabaseConnection<Day> {
+    override fun save(obj: Set<Day>, holderName: String) {
+        val file = File(holderName)
+        if (!file.exists() || file.isDirectory) file.createNewFile()
+
+        BufferedWriter(OutputStreamWriter(FileOutputStream(file))).use {
+            it.write(getDaysSetJson(obj))
+        }
+    }
+
+    override fun read(holderName: String): Set<Day> {
+        return setOf()
+    }
+
+    private fun getDaysSetJson(days: Set<Day>): String {
+        val rootObj = JsonObject()
+
+        for (obj in days) {
+            rootObj.add(obj.date.toString(), getDayJson(obj))
+        }
+
+        return Gson().toJson(rootObj)
+    }
+
+    private fun getDayJson(day: Day): JsonElement {
+        val dayValues = JsonObject()
+
+        addActivityJsonProperties(dayValues, day)
+
+        val date = Gson().toJson(day.date)
+        dayValues.addProperty("date", date)
+        dayValues.addProperty("timeActive", day.timeActive)
+
+        return dayValues
     }
 }
 

@@ -11,12 +11,17 @@ import sun.plugin.dom.exception.InvalidStateException
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
+import kotlin.collections.ArrayList
 
 public class ActivityGlobalListener private constructor(private val _activity: Activity) {
-    private val keyListenerInitializer: ListenerInitializer = ActivityKeyListener(_activity)
-    private val mouseListenerInitializer: ListenerInitializer = ActivityMouseListener(_activity)
-    private val focusListenerInitializer: ListenerInitializer = ActivityFocusListener(_activity)
+    private val listeners : MutableList<ListenerInitializer> = ArrayList()
     private var isTracking = false
+
+    init {
+        listeners.add(ActivityKeyListener(_activity))
+        listeners.add(ActivityMouseListener(_activity))
+        listeners.add(ActivityFocusListener(_activity))
+    }
 
     /**
      * Stops tracking
@@ -28,9 +33,7 @@ public class ActivityGlobalListener private constructor(private val _activity: A
             throw InvalidStateException("$_activity is already being tracked")
 
         isTracking = true
-        keyListenerInitializer.init()
-        mouseListenerInitializer.init()
-        focusListenerInitializer.init()
+        listeners.forEach { it.init() }
     }
 
     /**
@@ -43,9 +46,7 @@ public class ActivityGlobalListener private constructor(private val _activity: A
             throw InvalidStateException("$_activity is not being tracked yet")
 
         isTracking = false
-        keyListenerInitializer.disable()
-        mouseListenerInitializer.disable()
-        focusListenerInitializer.disable()
+        listeners.forEach { it.disable() }
     }
 
 
@@ -72,6 +73,7 @@ public class ActivityGlobalListener private constructor(private val _activity: A
          */
         @JvmStatic
         public fun init(activity: Activity): ActivityGlobalListener {
+            println(openedListeners.size)
             if (!GlobalScreen.isNativeHookRegistered())
                 throw InvalidStateException("Listener cannot be applied. Register it first.")
 
