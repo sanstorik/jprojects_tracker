@@ -12,5 +12,6 @@
     <orderEntry type="library" name="jnativehook-2.1.0" level="project" />
     <orderEntry type="library" name="jna-4.4.0" level="project" />
     <orderEntry type="library" name="jna-platform-4.4.0" level="project" />
+    <orderEntry type="library" name="gson-2.2.2" level="project" />
   </component>
 </module>
