@@ -62,6 +62,14 @@ public class ActivityGlobalListener private constructor(private val _activity: A
         _listeners.forEach { it.disable() }
     }
 
+    /**
+     * Stops trackings and clears it
+     * from memory, so it can be collected.
+     *
+     * Use this is you won't need the same
+     * listener for activity in the same
+     * session.
+     */
     public fun deleteAndClear() {
         if (_isTracking)
             stopTracking()
