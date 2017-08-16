@@ -1,8 +1,10 @@
 package activities.days
 
 import activities.Activity
+import activities.FocusContextAnalyzer
 import activities.days.hour.HourActivity
 import java.util.*
+import kotlin.concurrent.timerTask
 
 public data class Date(val day: Int, val month: Int, val year: Int) {
     override fun toString() = "$day.$month.$year"
@@ -13,7 +15,7 @@ public data class Date(val day: Int, val month: Int, val year: Int) {
  */
 public class Day (
         public val date: Date,
-        _currentHourActivity: Set<HourActivity>? = null,
+        _hourActivities: Set<HourActivity>? = null,
         _keysClickedCount: Int = 0,
         _mouseClickedCount: Int = 0,
         _timeSpentInSec: Int = 0,
@@ -27,23 +29,62 @@ public class Day (
         _timerStartsCount, _focusContextMap,
         _keysContextMap) {
 
-    private val _hourActivities: MutableSet<HourActivity> = HashSet()
+    private val hourActivities: MutableSet<HourActivity> = HashSet()
+    private var _currentHour: Int? = null
+    private lateinit var _currentHourActivity: HourActivity
 
     init {
-        _currentHourActivity?.forEach {
-            _hourActivities.add(it)
+        _hourActivities?.forEach {
+            this.hourActivities.add(it)
         }
 
-        for (i in 1..24) {
-            _hourActivities.add(HourActivity(hour = i))
+        if (_hourActivities == null) {
+            for (i in 1..24) {
+                this.hourActivities.add(HourActivity(hour = i))
+            }
         }
-        //_currentHourActivity ?: HourActivity(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))
+    }
+
+    public fun getCurrentHourActivity(): HourActivity {
+        if (_currentHour == null || _currentHour != Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+            _currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+            _currentHourActivity = hourActivities.first { it.hour == _currentHour }
+        }
+
+        return _currentHourActivity
+    }
+    public fun getHourActivities(): Set<HourActivity> = hourActivities
+
+    override fun onKeyPressed(key: String) {
+        _currentHourActivity.onKeyPressed(key)
+        super.onKeyPressed(key)
+    }
+
+    override fun onContextViewed(view: String, ms: Long) {
+        _currentHourActivity.onContextViewed(view, ms)
+        super.onContextViewed(view, ms)
     }
 
     override fun increaseTimeSpent(seconds: Int) {
-        Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        getCurrentHourActivity().increaseTimeSpent(seconds)
         super.increaseTimeSpent(seconds)
     }
+
+    override fun increaseTimeStarts() {
+        getCurrentHourActivity().increaseTimeStarts()
+        super.increaseTimeStarts()
+    }
+
+    override fun onMouseClicked() {
+        getCurrentHourActivity().onMouseClicked()
+        super.onMouseClicked()
+    }
+
+    override fun increaseTimeSpentAfk(seconds: Int) {
+        getCurrentHourActivity().increaseTimeSpentAfk(seconds)
+        super.increaseTimeSpentAfk(seconds)
+    }
+
 
     override fun equals(other: Any?) =
             when {

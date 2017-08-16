@@ -39,7 +39,19 @@ public abstract class Activity (
         get() = _timeSpentAfkInSec
 
 
-    public open fun mouseClicked() {
+    public open fun onKeyPressed(key: String) {
+        keysContextAnalyser.increaseKeysPressed(key)
+    }
+
+    /**
+     * On time spent in milliseconds
+     * on a specific view/context.
+     */
+    public open fun onContextViewed(view: String, ms: Long) {
+        focusContextAnalyzer.addTimeSpentOnContext(view, ms)
+    }
+
+    public open fun onMouseClicked() {
         _mouseClickedCount++
     }
 

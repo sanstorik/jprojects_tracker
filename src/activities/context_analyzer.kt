@@ -42,7 +42,7 @@ public class KeyContextAnalyzer(_map: Map<String, Int>? = null, private var _key
         _keysClicked++
     }
 
-    fun getVisitedContexts() = _analyser.getContexts()
+    fun getClickedButtons() = _analyser.getContexts()
 
     fun sort(comparator: (one: String, two: String) -> Int) = _analyser.sort(comparator)
 }

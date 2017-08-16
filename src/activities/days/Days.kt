@@ -3,10 +3,11 @@ package activities.days
 import database.ConnectionHolder
 import database.DaysConnectionJson
 import java.util.*
+import kotlin.concurrent.timerTask
 
 object Days: ConnectionHolder<Day>("res/databases/daysJson.json", DaysConnectionJson()) {
     private val _days: MutableSet<Day> = HashSet()
-    val currentDay = createCurrentDayIfAbsent()
+    public val currentDay by lazy { createCurrentDayIfAbsent() }
 
     init {
         initStartingConfiguration()
@@ -19,6 +20,8 @@ object Days: ConnectionHolder<Day>("res/databases/daysJson.json", DaysConnection
     }
 
     public fun saveChanges() = _connection.save(_days, _defaultHolderName)
+
+    public fun getDays(): Set<Day> = _days
 
     /**
      * Get cached value from set, but if it is
