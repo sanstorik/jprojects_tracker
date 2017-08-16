@@ -54,7 +54,7 @@ class ActivityFocusListener implements ListenerInitializer {
                 String currFocus = getCurrentContextTitle();
 
                 if (_lastFocus == null ||_lastFocus.equals(currFocus)) {
-                    _activity.getFocusContextAnalyzer().addTimeSpentOnContext(currFocus, PERIOD);
+                    _activity.onContextViewed(currFocus, PERIOD);
                 }
 
                 _lastFocus = currFocus;
@@ -88,6 +88,8 @@ class ActivityFocusListener implements ListenerInitializer {
                 contextName = appleScript.eval(script).toString();
             } catch (ScriptException e) { /*empty*/ }
         }
+
+        if (contextName.equals("")) contextName = "no context";
 
         return contextName;
     }

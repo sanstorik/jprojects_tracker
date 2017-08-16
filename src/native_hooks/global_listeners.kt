@@ -14,19 +14,26 @@ import java.util.logging.Logger
 import kotlin.collections.ArrayList
 
 /**
- * Holder for all listeners, that connects with activity,
+ * Holder for all _listeners, that connects with activity,
  * use startActivity() to begin tracking and stopTracking()
  * to disable tracking. There exists only one copy for
  * single activity.
+ *
+ * If you want to create listener for class Day, you should check
+ * if day passed, so you can create it for new Day, deleting
+ * previous one.
  */
 public class ActivityGlobalListener private constructor(private val _activity: Activity) {
-    private val listeners : MutableList<ListenerInitializer> = ArrayList()
-    private var isTracking = false
+    private val _listeners: MutableList<ListenerInitializer> = ArrayList()
+    private var _isTracking = false
 
     init {
-        listeners.add(ActivityKeyListener(_activity))
-        listeners.add(ActivityMouseListener(_activity))
-        listeners.add(ActivityFocusListener(_activity))
+        if (_activity is NotListenable)
+            throw IllegalArgumentException("$_activity couln't be listened")
+
+        _listeners.add(ActivityKeyListener(_activity))
+        _listeners.add(ActivityMouseListener(_activity))
+        _listeners.add(ActivityFocusListener(_activity))
     }
 
     /**
@@ -35,11 +42,11 @@ public class ActivityGlobalListener private constructor(private val _activity: A
      */
     @Throws(InvalidStateException::class)
     public fun startTracking() {
-        if (isTracking)
+        if (_isTracking)
             throw InvalidStateException("$_activity is already being tracked")
 
-        isTracking = true
-        listeners.forEach { it.init() }
+        _isTracking = true
+        _listeners.forEach { it.init() }
     }
 
     /**
@@ -48,18 +55,24 @@ public class ActivityGlobalListener private constructor(private val _activity: A
      */
     @Throws(InvalidStateException::class)
     public fun stopTracking() {
-        if (!isTracking)
+        if (!_isTracking)
             throw InvalidStateException("$_activity is not being tracked yet")
 
-        isTracking = false
-        listeners.forEach { it.disable() }
+        _isTracking = false
+        _listeners.forEach { it.disable() }
     }
 
+    public fun deleteAndClear() {
+        if (_isTracking)
+            stopTracking()
+
+        _openedListeners.remove(this)
+    }
 
     companion object Factory {
 
         @JvmStatic
-        private val openedListeners: MutableSet<ActivityGlobalListener> = HashSet()
+        private val _openedListeners: MutableSet<ActivityGlobalListener> = HashSet()
 
         init {
             try {
@@ -82,13 +95,13 @@ public class ActivityGlobalListener private constructor(private val _activity: A
             if (!GlobalScreen.isNativeHookRegistered())
                 throw InvalidStateException("Listener cannot be applied. Register it first.")
 
-            val openedActivity = openedListeners.firstOrNull { it._activity == activity }
+            val openedActivity = _openedListeners.firstOrNull { it._activity == activity }
 
             return if (openedActivity != null) {
                 openedActivity
             } else {
                 val listener = ActivityGlobalListener(activity)
-                openedListeners.add(listener)
+                _openedListeners.add(listener)
                 listener
             }
         }
@@ -101,7 +114,7 @@ internal class ActivityKeyListener(private val _activity: Activity)
     override fun nativeKeyTyped(p0: NativeKeyEvent?) {}
 
     override fun nativeKeyPressed(p0: NativeKeyEvent?) =
-            _activity.keysContextAnalyser.increaseKeysPressed(NativeKeyEvent.getKeyText(p0?.keyCode!!))
+            _activity.onKeyPressed(NativeKeyEvent.getKeyText(p0?.keyCode!!))
 
     override fun nativeKeyReleased(p0: NativeKeyEvent?) {}
 
@@ -117,7 +130,7 @@ internal class ActivityKeyListener(private val _activity: Activity)
 internal class ActivityMouseListener(private val _activity: Activity)
     : NativeMouseListener, ListenerInitializer {
 
-    override fun nativeMousePressed(p0: NativeMouseEvent?) = _activity.mouseClicked()
+    override fun nativeMousePressed(p0: NativeMouseEvent?) = _activity.onMouseClicked()
 
     override fun nativeMouseClicked(p0: NativeMouseEvent?) {}
     override fun nativeMouseReleased(p0: NativeMouseEvent?) {}
@@ -138,3 +151,5 @@ internal interface ListenerInitializer {
     fun init()
     fun disable()
 }
+
+interface NotListenable { /*empty*/ }

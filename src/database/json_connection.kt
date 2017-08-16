@@ -4,6 +4,7 @@ import activities.Activity
 import activities.FocusContextAnalyzer
 import activities.KeyContextAnalyzer
 import activities.days.Day
+import activities.days.hour.HourActivity
 import activities.projects.Project
 import com.google.gson.Gson
 import com.google.gson.JsonElement
@@ -11,6 +12,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import java.io.*
 import java.util.*
+import kotlin.collections.HashSet
 
 /**
  * Class that represents connection between model of projects
@@ -124,9 +126,30 @@ internal class DaysConnectionJson: DatabaseConnection<Day> {
 
         val date = Gson().toJson(day.date)
         dayValues.addProperty("date", date)
-        dayValues.addProperty("timeActive", day.timeActive)
+        dayValues.add("hourActivities", getHourActivitiesJson(day))
 
         return dayValues
+    }
+
+    /**
+     * Save to days set of Hours, 1-24 which
+     * are actually activities aswell.
+     */
+    private fun getHourActivitiesJson(day: Day): JsonElement {
+        val rootObj = JsonObject()
+
+        day.getHourActivities().forEach {
+            rootObj.add(it.hour.toString(), getHourActivityJson(it))
+        }
+
+        return rootObj
+    }
+
+    private fun getHourActivityJson(hourActivity: HourActivity): JsonElement {
+        val hourValues = JsonObject()
+
+        addActivityJsonProperties(hourValues, hourActivity)
+        return hourValues
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -135,23 +158,44 @@ internal class DaysConnectionJson: DatabaseConnection<Day> {
 
         val rootObject = json.asJsonObject
         rootObject.entrySet().forEach {
-            val project : JsonObject = it.value.asJsonObject
-            set.add(Day(date = getDayDate(project.get("date")),
-                    _timeActive = project.get("timeActive").asLong,
-                    _mouseClickedCount = project.get("mouseClickedCount").asInt,
-                    _timeSpentAfkInSec = project.get("timeSpentAfkInSec").asInt,
-                    _timeSpentInSec = project.get("timeSpentInSec").asInt,
-                    _timerStartsCount = project.get("timerStartsCount").asInt,
-                    _focusContextMap = getFocusContextMap(project.get("focusContext")),
-                    _keysContextMap = getKeyContextMap(project.get("keyContext")),
-                    _keysClickedCount = getKeyContextClicked(project.get("keyContext")))
+            val day : JsonObject = it.value.asJsonObject
+            set.add(Day(date = getDayDate(day.get("date")),
+                    _hourActivities = readHourSet(day.get("hourActivities")),
+                    _mouseClickedCount = day.get("mouseClickedCount").asInt,
+                    _timeSpentAfkInSec = day.get("timeSpentAfkInSec").asInt,
+                    _timeSpentInSec = day.get("timeSpentInSec").asInt,
+                    _timerStartsCount = day.get("timerStartsCount").asInt,
+                    _focusContextMap = getFocusContextMap(day.get("focusContext")),
+                    _keysContextMap = getKeyContextMap(day.get("keyContext")),
+                    _keysClickedCount = getKeyContextClicked(day.get("keyContext")))
             )
         }
 
         return set
     }
+
     private fun getDayDate(element: JsonElement) =
             Gson().fromJson(element.asString, activities.days.Date::class.java)
+
+    private fun readHourSet(json: JsonElement): Set<HourActivity> {
+        val set = HashSet<HourActivity>(24)
+
+        val rootObject = json.asJsonObject
+        rootObject.entrySet().forEach {
+            val hour : JsonObject = it.value.asJsonObject
+            set.add(HourActivity(hour = Integer.parseInt(it.key),
+                    _mouseClickedCount = hour.get("mouseClickedCount").asInt,
+                    _timeSpentAfkInSec = hour.get("timeSpentAfkInSec").asInt,
+                    _timeSpentInSec = hour.get("timeSpentInSec").asInt,
+                    _timerStartsCount = hour.get("timerStartsCount").asInt,
+                    _focusContextMap = getFocusContextMap(hour.get("focusContext")),
+                    _keysContextMap = getKeyContextMap(hour.get("keyContext")),
+                    _keysClickedCount = getKeyContextClicked(hour.get("keyContext")))
+            )
+        }
+
+        return set
+    }
 }
 
 
@@ -178,7 +222,7 @@ private fun keyAnalyzerJsonObject(keyContext: KeyContextAnalyzer): JsonObject {
     val gson = Gson()
 
     val keyContextObject = JsonObject()
-    keyContextObject.addProperty("keyContextMap", gson.toJson(keyContext.getVisitedContexts()))
+    keyContextObject.addProperty("keyContextMap", gson.toJson(keyContext.getClickedButtons()))
     keyContextObject.addProperty("clickedTotalCount", keyContext.keysClicked)
 
     return keyContextObject
