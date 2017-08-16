@@ -41,6 +41,8 @@ public class Day (
                 this.hourActivities.add(HourActivity(hour = i))
             }
         }
+
+        getCurrentHourActivity()
     }
 
     public fun getCurrentHourActivity(): HourActivity {
