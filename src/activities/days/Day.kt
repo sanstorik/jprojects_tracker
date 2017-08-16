@@ -1,10 +1,8 @@
 package activities.days
 
 import activities.Activity
-import activities.FocusContextAnalyzer
 import activities.days.hour.HourActivity
 import java.util.*
-import kotlin.concurrent.timerTask
 
 public data class Date(val day: Int, val month: Int, val year: Int) {
     override fun toString() = "$day.$month.$year"

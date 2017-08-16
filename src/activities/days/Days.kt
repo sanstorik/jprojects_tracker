@@ -3,7 +3,6 @@ package activities.days
 import database.ConnectionHolder
 import database.DaysConnectionJson
 import java.util.*
-import kotlin.concurrent.timerTask
 
 object Days: ConnectionHolder<Day>("res/databases/daysJson.json", DaysConnectionJson()) {
     private val _days: MutableSet<Day> = HashSet()
