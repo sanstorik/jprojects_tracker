@@ -124,7 +124,6 @@ internal class DaysConnectionJson: DatabaseConnection<Day> {
 
         val date = Gson().toJson(day.date)
         dayValues.addProperty("date", date)
-        dayValues.addProperty("timeActive", day.timeActive)
 
         return dayValues
     }
@@ -137,7 +136,6 @@ internal class DaysConnectionJson: DatabaseConnection<Day> {
         rootObject.entrySet().forEach {
             val project : JsonObject = it.value.asJsonObject
             set.add(Day(date = getDayDate(project.get("date")),
-                    _timeActive = project.get("timeActive").asLong,
                     _mouseClickedCount = project.get("mouseClickedCount").asInt,
                     _timeSpentAfkInSec = project.get("timeSpentAfkInSec").asInt,
                     _timeSpentInSec = project.get("timeSpentInSec").asInt,

@@ -39,19 +39,19 @@ public abstract class Activity (
         get() = _timeSpentAfkInSec
 
 
-    public fun mouseClicked() {
+    public open fun mouseClicked() {
         _mouseClickedCount++
     }
 
-    public fun increaseTimeStarts() {
+    public open fun increaseTimeStarts() {
         _timerStartsCount++
     }
 
-    public fun increaseTimeSpent(seconds: Int) {
+    public open fun increaseTimeSpent(seconds: Int) {
         _timeSpentInSec += seconds
     }
 
-    public fun increaseTimeSpentAfk(seconds: Int) {
+    public open fun increaseTimeSpentAfk(seconds: Int) {
         _timeSpentAfkInSec += seconds
     }
 }

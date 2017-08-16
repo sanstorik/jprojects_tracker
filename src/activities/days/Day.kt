@@ -1,6 +1,7 @@
 package activities.days
 
 import activities.Activity
+import activities.days.hour.HourActivity
 import java.util.*
 
 public data class Date(val day: Int, val month: Int, val year: Int) {
@@ -12,7 +13,7 @@ public data class Date(val day: Int, val month: Int, val year: Int) {
  */
 public class Day (
         public val date: Date,
-        private var _timeActive: Long = 0,
+        _currentHourActivity: Set<HourActivity>? = null,
         _keysClickedCount: Int = 0,
         _mouseClickedCount: Int = 0,
         _timeSpentInSec: Int = 0,
@@ -26,15 +27,22 @@ public class Day (
         _timerStartsCount, _focusContextMap,
         _keysContextMap) {
 
-    val timeActive
-        get() = _timeActive
+    private val _hourActivities: MutableSet<HourActivity> = HashSet()
 
-    /**
-     * Increase time active in one day
-     * @param ms time in milliseconds
-     */
-    public fun increaseTimeActive(ms: Long) {
-        _timeActive += ms
+    init {
+        _currentHourActivity?.forEach {
+            _hourActivities.add(it)
+        }
+
+        for (i in 1..24) {
+            _hourActivities.add(HourActivity(hour = i))
+        }
+        //_currentHourActivity ?: HourActivity(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))
+    }
+
+    override fun increaseTimeSpent(seconds: Int) {
+        Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        super.increaseTimeSpent(seconds)
     }
 
     override fun equals(other: Any?) =
