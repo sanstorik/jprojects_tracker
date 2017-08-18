@@ -63,7 +63,7 @@ public class ActivityGlobalListener private constructor(private val _activity: A
     }
 
     /**
-     * Stops trackings and clears it
+     * Stops listeners and clear them
      * from memory, so it can be collected.
      *
      * Use this is you won't need the same

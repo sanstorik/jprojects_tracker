@@ -1,12 +1,7 @@
-import activities.days.Days
-import activities.projects.Projects
-import native_hooks.ActivityGlobalListener
 import panels.WorkflowTabbedPane
-import java.util.*
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 import javax.swing.UIManager
-import kotlin.concurrent.timerTask
 
 val FRAME_WIDTH = 750
 val FRAME_HEIGHT = 450
@@ -19,7 +14,7 @@ fun main(args: Array<String>) {
 }
 
 private fun createAndShowGui() {
-    val frame = JFrame()
+    val frame = JFrame("Workflow Analyzer")
     frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
     frame.add(WorkflowTabbedPane())
 

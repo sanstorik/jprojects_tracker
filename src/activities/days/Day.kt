@@ -9,7 +9,7 @@ public data class Date(val day: Int, val month: Int, val year: Int) {
 }
 
 /**
- * Activity that tracks day activities
+ * Class for tracking day activities
  */
 public class Day (
         public val date: Date,
@@ -45,6 +45,9 @@ public class Day (
         getCurrentHourActivity()
     }
 
+    /**
+     * @return hour activity that synchronises with current real hour
+     */
     public fun getCurrentHourActivity(): HourActivity {
         if (_currentHour == null || _currentHour != Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
             _currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
@@ -53,6 +56,7 @@ public class Day (
 
         return _currentHourActivity
     }
+
     public fun getHourActivities(): Set<HourActivity> = hourActivities
 
     override fun onKeyPressed(key: String) {

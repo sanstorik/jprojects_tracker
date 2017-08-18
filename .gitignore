@@ -17,10 +17,10 @@
 *.zip
 *.tar.gz
 *.rar
-!native_jars/jna-4.4.0.jar
-!native_jars/jna-platform-4.4.0.jar
-!native_jars/jnativehook-2.1.0.jar
-!native_jars/gson-2.2.2.jar
+!jworkflow_UI/src/native_jars/jna-4.4.0.jar
+!jworkflow_UI/src/native_jars/jna-platform-4.4.0.jar
+!jworkflow_UI/src/native_jars/jnativehook-2.1.0.jar
+!jworkflow_UI/src/native_jars/gson-2.2.2.jar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

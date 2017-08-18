@@ -1,5 +1,7 @@
 package panels;
 
+import panels.settings.SettingsTabView;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -19,8 +21,8 @@ public final class WorkflowTabbedPane extends JPanel {
     private void createPane() {
         _pane = new JTabbedPane();
 
-        createTab(0, "Tab 1", null, makeStringPanel("Hello"));
-        createTab(1, "Tab 2", null, makeStringPanel("Hello2"));
+        createTab(0, "Time management", null, makeStringPanel("Hello"), (int)(TAB_WIDTH * 1.5f));
+        createTab(1, "Settings", null, new SettingsTabView());
     }
 
     private JComponent makeStringPanel(String text) {
