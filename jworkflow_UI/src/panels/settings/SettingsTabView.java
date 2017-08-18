@@ -1,5 +1,5 @@
 package panels.settings;
-import utils.MyResourceManager;
+import utils.FileUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +20,7 @@ public class SettingsTabView extends JPanel implements ISettingsView {
 
     @Override public File chooseFile() {
         JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showDialog(null, "Open file");
+        int result = fileChooser.showDialog(null, "Choose file");
 
         return result == JFileChooser.APPROVE_OPTION ?
                 fileChooser.getSelectedFile() : null;
@@ -35,7 +35,7 @@ public class SettingsTabView extends JPanel implements ISettingsView {
 
     private JButton createButton(String title, int row, int column, int spacing, int weightX) {
         JButton button = new JButton(title);
-        button.setIcon(new ImageIcon(MyResourceManager.loadImage("download.jpg")));
+        button.setIcon(new ImageIcon(FileUtils.loadImage("images/download.jpg")));
 
         button.setPreferredSize(new Dimension(200,60));
         _constraints.anchor = GridBagConstraints.NORTH;
