@@ -1,13 +1,9 @@
 package panels;
 
-import activities.days.Days;
-import activities.projects.Projects;
-import native_hooks.ActivityGlobalListener;
 import panels.settings.SettingsTabView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 
 public final class WorkflowTabbedPane extends JPanel {
     private static final int TAB_WIDTH = 80;
@@ -27,14 +23,6 @@ public final class WorkflowTabbedPane extends JPanel {
 
         createTab(0, "Time management", null, makeStringPanel("Hello"), (int)(TAB_WIDTH * 1.5f));
         createTab(1, "Settings", null, new SettingsTabView());
-        ActivityGlobalListener.of(Days.INSTANCE.getCurrentDay()).startTracking();
-
-        new java.util.Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Days.INSTANCE.saveChanges();
-            }
-        }, 5000);
     }
 
     private JComponent makeStringPanel(String text) {
