@@ -27,22 +27,22 @@ public class SettingsTabView extends JPanel implements ISettingsView {
     }
 
     private void createButtons() {
-        createButton("Import projects", 1, 0, 20, (e) -> _presenter.importProjects());
-        createButton("Export project", 1, 1, 20, (e) -> _presenter.exportProjects());
-        createButton("Import days", 4, 0, 20, (e) -> _presenter.importDays());
-        createButton("Export days", 4, 1, 20, (e) -> _presenter.exportDays());
+        createButton("Import projects", 1, 0, 20, 0, (e) -> _presenter.importProjects());
+        createButton("Export project", 1, 1, 20, -50, (e) -> _presenter.exportProjects());
+        createButton("Import days", 4, 0, 20, 0, (e) -> _presenter.importDays());
+        createButton("Export days", 4, 1, 20, -50, (e) -> _presenter.exportDays());
 
-        createImage(FileUtils.loadImage("images/recycle.png"), 2, 1, 1, new Insets(-250,0,0,0), 200, 200, 1);
+        createImage(FileUtils.loadImage("recycle.png"), 2, 1, 1, new Insets(-250,0,0,0), 200, 200, 1);
     }
 
-    private void createButton(String title, int row, int column, int spacing, ActionListener actionListener) {
+    private void createButton(String title, int row, int column, int spacing, int spacingBottom, ActionListener actionListener) {
         JButton button = new JButton(title);
         button.setPreferredSize(new Dimension(200,60));
         button.setBackground(Color.lightGray);
-        button.setFont(new Font("Peppa Pig", Font.BOLD, 20));
+        button.setFont(FileUtils.getDefaultFont(Font.BOLD, 20));
         button.addActionListener(actionListener);
 
-        changeConstraints(GridBagConstraints.NORTH, 10, 1, row, column , new Insets(spacing, 0, 0, 0));
+        changeConstraints(GridBagConstraints.NORTH, 10, 1, row, column , new Insets(spacing, 0, spacingBottom, 0));
 
         add(button, _constraints);
     }

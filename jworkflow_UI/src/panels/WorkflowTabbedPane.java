@@ -2,6 +2,7 @@ package panels;
 
 
 import panels.settings.SettingsTabView;
+import panels.time_management.TimeManagementTabView;
 import utils.FileUtils;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ public final class WorkflowTabbedPane extends JPanel {
 
     public WorkflowTabbedPane() {
         super(new GridLayout(1,1));
-        FileUtils.registerFont("fonts/Peppa Pig.ttf");
+        FileUtils.registerFont("Peppa Pig.ttf");
 
         createPane();
         add(_pane);
@@ -24,7 +25,7 @@ public final class WorkflowTabbedPane extends JPanel {
     private void createPane() {
         _pane = new JTabbedPane();
 
-        createTab(0, "Time management", null, new SettingsTabView(), (int)(TAB_WIDTH * 1.5f));
+        createTab(0, "Time management", null, new TimeManagementTabView(), (int)(TAB_WIDTH * 1.5f));
         createTab(1, "Settings", null, new SettingsTabView());
     }
 
