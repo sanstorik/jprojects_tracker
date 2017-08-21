@@ -23,13 +23,13 @@ abstract class ConnectionHolder <T> (
     /**
      * receive data from other source
      */
-    public abstract fun import(fileName: String)
+    public abstract fun receive(fileName: String)
 
     protected fun initStartingConfiguration() {
         val file = File(_defaultHolderName)
 
         if (file.exists() && !file.isDirectory) {
-            import(_defaultHolderName)
+            receive(_defaultHolderName)
         } else {
             file.createNewFile()
         }

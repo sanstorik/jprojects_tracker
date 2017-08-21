@@ -1,20 +1,20 @@
 package panels.settings;
+
 import utils.FileUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 public class SettingsTabView extends JPanel implements ISettingsView {
     private SettingsTabPresenter _presenter;
-    private GridBagLayout _layout;
     private GridBagConstraints _constraints;
 
     public SettingsTabView() {
         _presenter = new SettingsTabPresenter(this);
-        _layout = new GridBagLayout();
         _constraints = new GridBagConstraints();
-        setLayout(_layout);
+        setLayout(new GridBagLayout());
         createButtons();
     }
 
@@ -27,28 +27,45 @@ public class SettingsTabView extends JPanel implements ISettingsView {
     }
 
     private void createButtons() {
-        createButton("Import projects", 1, 0, 20, 1).addActionListener((event) -> _presenter.importProjects());
-        createButton("Export project", 1, 1, 20, 1);
-        createButton("Import data", 1, 2, 20, 1);
-        createButton("Export data", 1, 3, 20, 1);
+        createButton("Import projects", 1, 0, 20, (e) -> _presenter.importProjects());
+        createButton("Export project", 1, 1, 20, (e) -> _presenter.exportProjects());
+        createButton("Import days", 4, 0, 20, (e) -> _presenter.importDays());
+        createButton("Export days", 4, 1, 20, (e) -> _presenter.exportDays());
+
+        createImage(FileUtils.loadImage("images/recycle.png"), 2, 1, 1, new Insets(-250,0,0,0), 200, 200, 1);
     }
 
-    private JButton createButton(String title, int row, int column, int spacing, int weightX) {
+    private void createButton(String title, int row, int column, int spacing, ActionListener actionListener) {
         JButton button = new JButton(title);
-        button.setIcon(new ImageIcon(FileUtils.loadImage("images/download.jpg")));
-
         button.setPreferredSize(new Dimension(200,60));
-        _constraints.anchor = GridBagConstraints.NORTH;
-        _constraints.weightx = weightX;
-        _constraints.weighty = 1;
-        _constraints.gridx = row;
-        _constraints.gridy = column;
-        _constraints.insets = new Insets(spacing, 0, 0, 0);
+        button.setBackground(Color.lightGray);
+        button.setFont(new Font("Peppa Pig", Font.BOLD, 20));
+        button.addActionListener(actionListener);
+
+        changeConstraints(GridBagConstraints.NORTH, 10, 1, row, column , new Insets(spacing, 0, 0, 0));
 
         add(button, _constraints);
-        return button;
     }
 
+    private void createImage(Image image, int row, int column, int weightX, Insets insets, int width, int height, int gridWidth) {
+        JLabel picLabel = new JLabel(new ImageIcon(image.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
+        picLabel.setOpaque(false);
+
+        changeConstraints(GridBagConstraints.WEST, weightX, 1, row, column, insets);
+        _constraints.gridwidth = gridWidth;
+
+        add(picLabel, _constraints);
+    }
+
+    private void changeConstraints(int anchor, int weightX, int weightY, int row, int column, Insets insets) {
+        _constraints = new GridBagConstraints();
+        _constraints.anchor = anchor;
+        _constraints.weightx = weightX;
+        _constraints.weighty = weightY;
+        _constraints.gridx = row;
+        _constraints.gridy = column;
+        _constraints.insets = insets;
+    }
 }
 
 interface ISettingsView {

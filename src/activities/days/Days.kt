@@ -14,7 +14,7 @@ object Days: ConnectionHolder<Day>("res/databases/daysJson.json", DaysConnection
 
     public fun sort(comparator: (one: Day, two: Day) -> Int) = _days.toSortedSet(Comparator(comparator))
 
-    override fun import(fileName: String) {
+    override fun receive(fileName: String) {
         _days.addAll(_connection.read(fileName))
     }
 

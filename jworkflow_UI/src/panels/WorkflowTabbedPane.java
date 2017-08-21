@@ -1,6 +1,8 @@
 package panels;
 
+
 import panels.settings.SettingsTabView;
+import utils.FileUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,26 +15,17 @@ public final class WorkflowTabbedPane extends JPanel {
 
     public WorkflowTabbedPane() {
         super(new GridLayout(1,1));
-        createPane();
+        FileUtils.registerFont("fonts/Peppa Pig.ttf");
 
+        createPane();
         add(_pane);
     }
 
     private void createPane() {
         _pane = new JTabbedPane();
 
-        createTab(0, "Time management", null, makeStringPanel("Hello"), (int)(TAB_WIDTH * 1.5f));
+        createTab(0, "Time management", null, new SettingsTabView(), (int)(TAB_WIDTH * 1.5f));
         createTab(1, "Settings", null, new SettingsTabView());
-    }
-
-    private JComponent makeStringPanel(String text) {
-        JPanel panel = new JPanel(false);
-
-        JLabel label = new JLabel(text);
-        label.setHorizontalAlignment(JLabel.CENTER);
-        panel.setLayout(new GridLayout(1,1));
-        panel.add(label);
-        return panel;
     }
 
     private void createTab(int index, String title, Icon icon, JComponent context) {

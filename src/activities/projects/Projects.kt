@@ -43,7 +43,7 @@ object Projects : ConnectionHolder<Project>("res/databases/projectsJson.json", P
         initStartingConfiguration()
     }
 
-    override fun import(fileName: String) {
+    override fun receive(fileName: String) {
         val projSet = _connection.read(fileName)
         projSet.forEach { _projectsInfo.add(it) }
     }
