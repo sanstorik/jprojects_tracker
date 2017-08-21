@@ -18,6 +18,9 @@ class TimeManagmentTabPresenter {
         if (project != null) {
             _view.setCurrentProject(project);
             _view.setTimeSpentForProject(_view.getCurrentProject().getTimeSpentInSec());
+        } else {
+            _view.setCurrentProject(null);
+            _view.setTimeSpentForProject(0);
         }
     }
 
@@ -43,7 +46,7 @@ class TimeManagmentTabPresenter {
     }
 
     void removeProject() {
-        Project project = Projects.INSTANCE.info().get("hello world");
+        Project project = Projects.INSTANCE.info().get("hello");
         boolean removed = project != null && Projects.INSTANCE.info().remove(project);
         Projects.INSTANCE.saveChanges();
 
