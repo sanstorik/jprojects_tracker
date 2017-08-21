@@ -36,6 +36,9 @@ object Projects : ConnectionHolder<Project>("res/databases/projectsJson.json", P
         public fun remove(project: Project) = _projects.remove(project)
 
         public fun getProjects() : Set<Project> = _projects
+
+
+        public fun addEmpty(projectName: String) = _projects.add(Project(projectName))
     }
 
     private val _projectsInfo : ProjectsInfo = ProjectsInfo()

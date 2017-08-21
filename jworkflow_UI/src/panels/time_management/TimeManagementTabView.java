@@ -6,11 +6,13 @@ import utils.FileUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class TimeManagementTabView extends JPanel implements ITimeManagementView {
     private TimeManagmentTabPresenter _presenter;
     private GridBagConstraints _constraints;
     private JLabel _currentTimeSpentJLabel;
+    private JLabel _timeSpentForProjectJLabel;
     private JComboBox<String> _projectComboBox;
     private Project _chosenProject;
 
@@ -23,7 +25,7 @@ public class TimeManagementTabView extends JPanel implements ITimeManagementView
         setLayout(new GridBagLayout());
 
         createGUI();
-        populateProjectBox(new String[]{"Project One", "Project Two"});
+        _presenter.fillProjectComboBox();
     }
 
     @Override public void populateProjectBox(String[] values) {
@@ -34,6 +36,10 @@ public class TimeManagementTabView extends JPanel implements ITimeManagementView
         }
     }
 
+    @Override public int getComboBoxSize() {
+        return _projectComboBox.getItemCount();
+    }
+
     @Override public Project getCurrentProject() {
         return _chosenProject;
     }
@@ -42,22 +48,37 @@ public class TimeManagementTabView extends JPanel implements ITimeManagementView
         _chosenProject = project;
     }
 
+    @Override public void setTimeSpentForProject(int time) {
+        setTimeSpentForTimer(_timeSpentForProjectJLabel, time);
+    }
+
+    @Override public void setCurrentTimeSpent(int time) {
+        setTimeSpentForTimer(_currentTimeSpentJLabel, time);
+    }
+
     private void createGUI() {
         createImage(FileUtils.loadImage("timer.png"), 0, 0, 1, new Insets(0, 20, 0, 0), 150, 150, 2);
         _currentTimeSpentJLabel = createTimeLabel(3, 0, 1, new Insets(0, -50, 0, 0), 2, 50);
+        _timeSpentForProjectJLabel = createTimeLabel(1, 4, 1, new Insets(0, 50, 0, 0), 2, 50);
+        JLabel label = createTimeLabel(1, 3, 1, new Insets(0, 50, 0, 0), 2, 25);
+        label.setFont(FileUtils.getDefaultFont(Font.BOLD, 20));
+        label.setText("Current project total time:");
 
         _projectComboBox = createProjectsChooseBox();
+
         createButton("Rename project", 9, 1, new Insets(0,0,0,10), e -> {});
-        createButton("Add project", 9, 2, new Insets(0,0,0,10), e -> {});
-        createButton("Remove project", 9, 3, new Insets(0,0,0,10), e -> {});
+        createButton("Add project", 9, 2, new Insets(0,0,0,10), e -> _presenter.addProject());
+        createButton("Remove project", 9, 3, new Insets(0,0,0,10), e -> _presenter.removeProject());
+
         _startTimerButton = createButton("Start", 1, 1, new Insets(0,0,0,0), e -> {});
         _stopTimerButton = createButton("Stop", 3, 1, new Insets(0,0,0,0), e -> {});
+
     }
 
     private JComboBox<String> createProjectsChooseBox() {
         JComboBox<String> projects = new JComboBox<>();
         projects.setFont(FileUtils.getDefaultFont(GridBagConstraints.NONE, 25));
-        projects.addItemListener((e -> {}));
+        projects.addItemListener((e -> _presenter.onProjectComboBoxPressed(e.getItem().toString())));
 
         changeConstraints(GridBagConstraints.EAST, 1, 1, 9, 0, new Insets(0,0,0,10));
         add(projects, _constraints);
@@ -102,6 +123,23 @@ public class TimeManagementTabView extends JPanel implements ITimeManagementView
         return button;
     }
 
+    /**
+     * Abstraction in setting time to timer
+     * @param timer needed timer to be changed
+     * @param timeSpent time in seconds
+     */
+    private void setTimeSpentForTimer(final JLabel timer, final int timeSpent) {
+        int hoursInt = timeSpent / 3600;
+        int minutesInt = (timeSpent - hoursInt * 3600) / 60;
+        int secondsInt = (timeSpent - minutesInt * 60 - hoursInt * 3600);
+
+        String hours = hoursInt < 10 ? 0 + String.valueOf(hoursInt) : String.valueOf(hoursInt);
+        String minutes = minutesInt < 10 ? 0 + String.valueOf(minutesInt) : String.valueOf(minutesInt);
+        String seconds = secondsInt < 10 ? 0 + String.valueOf(secondsInt) : String.valueOf(secondsInt);
+
+        timer.setText(String.format("%s:%s:%s", hours, minutes, seconds));
+    }
+
     private void changeConstraints(int anchor, int weightX, int weightY, int row, int column, Insets insets) {
         _constraints = new GridBagConstraints();
         _constraints.anchor = anchor;
@@ -113,8 +151,22 @@ public class TimeManagementTabView extends JPanel implements ITimeManagementView
     }
 }
 
+
 interface ITimeManagementView {
     void populateProjectBox(String[] values);
+    int getComboBoxSize();
     Project getCurrentProject();
     void setCurrentProject(Project project);
+
+    /**
+     * Set text of total time spent for project
+     * @param time time in seconds
+     */
+    void setTimeSpentForProject(int time);
+
+    /**
+     * Set text of current session timer
+     * @param time time in seconds
+     */
+    void setCurrentTimeSpent(int time);
 }

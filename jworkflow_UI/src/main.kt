@@ -5,8 +5,8 @@ import javax.swing.JFrame
 import javax.swing.SwingUtilities
 import javax.swing.UIManager
 
-val FRAME_WIDTH = 750
-val FRAME_HEIGHT = 450
+val FRAME_WIDTH = 800
+val FRAME_HEIGHT = 500
 
 fun main(args: Array<String>) {
     SwingUtilities.invokeLater {
