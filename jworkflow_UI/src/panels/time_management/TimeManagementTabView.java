@@ -99,9 +99,9 @@ public class TimeManagementTabView extends JPanel implements ITimeManagementView
     }
 
     private void createGUI() {
-        createImage(FileUtils.loadImage("timer.png"), 0, 0, 1, new Insets(0, 20, 0, 0), 150, 150, 2);
-        _currentTimeSpentJLabel = createTimeLabel(3, 0, 1, new Insets(0, -50, 0, 0), 2, 50);
-        _timeSpentForProjectJLabel = createTimeLabel(1, 4, 1, new Insets(0, 50, 0, 0), 2, 50);
+        createImage(FileUtils.loadImage("clock.png"), 0, 0, 1, new Insets(0, 30, 0, 0), 150, 150, 2);
+        _currentTimeSpentJLabel = createTimeLabel(3, 0, 1, new Insets(0, -70, 0, 0), 2, 55);
+        _timeSpentForProjectJLabel = createTimeLabel(1, 4, 1, new Insets(0, 50, 0, 0), 2, 40);
 
         JLabel label = createTimeLabel(1, 3, 1, new Insets(0, 50, 0, 0), 2, 25);
         label.setFont(FileUtils.getDefaultFont(Font.BOLD, 20));
