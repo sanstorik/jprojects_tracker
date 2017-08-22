@@ -35,9 +35,16 @@ public class ProjectConnectionJson : DatabaseConnection<Project> {
             throw NoSuchFileException(file)
         }
 
-        return readProjectsSet(
-                JsonParser().parse(BufferedReader(InputStreamReader(FileInputStream(file))))
-        )
+        var content = ""
+        FileReader(file).use { content = it.readText() }
+
+        //file may be created but not filled with data yer
+        //so we return empty set in that case
+        if (content.isEmpty() || content.isBlank()) {
+            return setOf()
+        }
+
+        return readProjectsSet(JsonParser().parse(FileReader(file)))
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -104,9 +111,16 @@ internal class DaysConnectionJson: DatabaseConnection<Day> {
             throw NoSuchFileException(file)
         }
 
-        return readDaySet(
-                JsonParser().parse(BufferedReader(InputStreamReader(FileInputStream(file))))
-        )
+        var content = ""
+        FileReader(file).use { content = it.readText() }
+
+        //file may be created but not filled with data yet
+        //so we return empty set in that case
+        if (content.isEmpty() || content.isBlank()) {
+            return setOf()
+        }
+
+        return readDaySet(JsonParser().parse(FileReader(file)))
     }
 
     private fun getDaysSetJson(days: Set<Day>): String {
@@ -133,7 +147,7 @@ internal class DaysConnectionJson: DatabaseConnection<Day> {
 
     /**
      * Save to days set of Hours, 1-24 which
-     * are actually activities aswell.
+     * are actually activities as well.
      */
     private fun getHourActivitiesJson(day: Day): JsonElement {
         val rootObj = JsonObject()

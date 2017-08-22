@@ -29,10 +29,12 @@ class TimeManagementTabPresenter {
     }
 
     void startTimer() {
-        _projectListener = ActivityGlobalListener.of(_currentProject);
-        _projectListener.startTracking();
-        _timer.start();
-        _view.blockButtonsOnTimerStart();
+        if (_currentProject != null) {
+            _projectListener = ActivityGlobalListener.of(_currentProject);
+            _projectListener.startTracking();
+            _timer.start();
+            _view.blockButtonsOnTimerStart();
+        }
     }
 
     void stopTimer() {

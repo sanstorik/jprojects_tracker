@@ -115,6 +115,7 @@ public class TimeManagementTabView extends JPanel implements ITimeManagementView
 
         _startTimerButton = createButton("Start", 1, 1, new Insets(0,0,0,0), e -> _presenter.startTimer());
         _stopTimerButton = createButton("Stop", 3, 1, new Insets(0,0,0,0), e -> _presenter.stopTimer());
+        _stopTimerButton.setEnabled(false);
     }
 
     private JComboBox<String> createProjectsChooseBox() {
