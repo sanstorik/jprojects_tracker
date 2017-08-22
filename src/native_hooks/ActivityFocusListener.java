@@ -83,10 +83,12 @@ class ActivityFocusListener implements ListenerInitializer {
                     "\tname of application processes whose frontmost is tru\n" +
                     "end";
 
-            ScriptEngine appleScript = new ScriptEngineManager().getEngineByName("AppleScript");
+            /* ScriptEngine appleScript = new ScriptEngineManager().getEngineByName("AppleScript");
             try {
-                contextName = appleScript.eval(script).toString();
-            } catch (ScriptException e) { /*empty*/ }
+                if (appleScript != null) {
+                    contextName = appleScript.eval(script).toString();
+                }
+            } catch (ScriptException e) { /*empty } */
         }
 
         if (contextName.equals("")) contextName = "no context";
