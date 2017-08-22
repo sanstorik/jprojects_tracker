@@ -6,10 +6,9 @@ import utils.FileUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 public class TimeManagementTabView extends JPanel implements ITimeManagementView {
-    private TimeManagmentTabPresenter _presenter;
+    private TimeManagementTabPresenter _presenter;
     private GridBagConstraints _constraints;
     private JLabel _currentTimeSpentJLabel;
     private JLabel _timeSpentForProjectJLabel;
@@ -20,7 +19,7 @@ public class TimeManagementTabView extends JPanel implements ITimeManagementView
     private JButton _stopTimerButton;
 
     public TimeManagementTabView() {
-        _presenter = new TimeManagmentTabPresenter(this);
+        _presenter = new TimeManagementTabPresenter(this);
         _constraints = new GridBagConstraints();
         setLayout(new GridBagLayout());
 

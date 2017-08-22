@@ -6,10 +6,10 @@ import activities.projects.Projects;
 import java.util.ArrayList;
 import java.util.List;
 
-class TimeManagmentTabPresenter {
+class TimeManagementTabPresenter {
     private ITimeManagementView _view;
 
-    TimeManagmentTabPresenter(ITimeManagementView view) {
+    TimeManagementTabPresenter(ITimeManagementView view) {
         _view = view;
     }
 
