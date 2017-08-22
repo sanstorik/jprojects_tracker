@@ -35,10 +35,29 @@ object Projects : ConnectionHolder<Project>("res/databases/projectsJson.json", P
          */
         public fun remove(project: Project) = _projects.remove(project)
 
+        public fun removeAll() = _projects.clear()
+
         public fun getProjects() : Set<Project> = _projects
 
 
         public fun addEmpty(projectName: String) = _projects.add(Project(projectName))
+
+        /**
+         * @param newProjectName should not be empty neither blank
+         */
+        public fun rename(oldProjectName: String, newProjectName: String): Boolean {
+            val project = get(oldProjectName)
+            val isNewNameTaken = _projects.find { it.projectName == newProjectName }
+
+            if (project == null || isNewNameTaken != null
+                    || newProjectName.isBlank()
+                    || newProjectName.isEmpty()) {
+                return false
+            }
+
+            project.projectName = newProjectName
+            return true
+        }
     }
 
     private val _projectsInfo : ProjectsInfo = ProjectsInfo()
@@ -48,6 +67,7 @@ object Projects : ConnectionHolder<Project>("res/databases/projectsJson.json", P
 
     override fun receive(fileName: String) {
         val projSet = _connection.read(fileName)
+        _projectsInfo.removeAll()
         projSet.forEach { _projectsInfo.add(it) }
     }
 

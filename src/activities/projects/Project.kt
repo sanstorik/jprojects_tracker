@@ -1,13 +1,14 @@
 package activities.projects
 
 import activities.Activity
+import org.jetbrains.annotations.NotNull
 import java.util.*
 
 /**
  * Activity that tracks projects
  */
 public class Project (
-        public val projectName : String,
+        private var _projectName: String,
         _dateOfCreation: Calendar? = null,
         _keysClickedCount: Int = 0,
         _mouseClickedCount: Int = 0,
@@ -24,6 +25,17 @@ public class Project (
 
     var dateOfCreation = (_dateOfCreation ?: Calendar.getInstance())!!
         private set
+
+    /**
+     * Value should not be either empty or blank
+     */
+    var projectName
+        get() = _projectName
+        set(value) {
+            if(!value.isEmpty() && !value.isBlank()) {
+                _projectName = value
+            }
+        }
 
     override fun equals(other: Any?) =
         when {

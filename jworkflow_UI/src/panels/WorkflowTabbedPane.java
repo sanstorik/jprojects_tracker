@@ -27,6 +27,7 @@ public final class WorkflowTabbedPane extends JPanel {
 
         createTab(0, "Time management", null, new TimeManagementTabView(), (int)(TAB_WIDTH * 1.5f));
         createTab(1, "Settings", null, new SettingsTabView());
+        _pane.addChangeListener(e -> ((ChangeTabListener)_pane.getSelectedComponent()).onTabChange() );
     }
 
     private void createTab(int index, String title, Icon icon, JComponent context) {

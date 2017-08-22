@@ -1,5 +1,6 @@
 package panels.settings;
 
+import panels.ChangeTabListener;
 import utils.FileUtils;
 
 import javax.swing.*;
@@ -7,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-public class SettingsTabView extends JPanel implements ISettingsView {
+public class SettingsTabView extends JPanel implements ISettingsView, ChangeTabListener {
     private SettingsTabPresenter _presenter;
     private GridBagConstraints _constraints;
 
@@ -17,6 +18,8 @@ public class SettingsTabView extends JPanel implements ISettingsView {
         setLayout(new GridBagLayout());
         createButtons();
     }
+
+    @Override public void onTabChange() { /*empty*/ }
 
     @Override public File chooseFile() {
         JFileChooser fileChooser = new JFileChooser();

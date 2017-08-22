@@ -47,7 +47,7 @@ public class ProjectConnectionJson : DatabaseConnection<Project> {
         val rootObject = json.asJsonObject
         rootObject.entrySet().forEach {
             val project : JsonObject = it.value.asJsonObject
-            set.add(Project(projectName = it.key,
+            set.add(Project(_projectName = it.key,
                     _mouseClickedCount = project.get("mouseClickedCount").asInt,
                     _timeSpentAfkInSec = project.get("timeSpentAfkInSec").asInt,
                     _timeSpentInSec = project.get("timeSpentInSec").asInt,
