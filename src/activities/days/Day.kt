@@ -6,13 +6,15 @@ import java.util.*
 
 public data class Date(val day: Int, val month: Int, val year: Int) {
     override fun toString() = "$day.$month.$year"
+
+    fun clone() = Date(day, month, year)
 }
 
 /**
  * Class for tracking day activities
  */
 public class Day (
-        public val date: Date,
+        private var _date: Date,
         _hourActivities: Set<HourActivity>? = null,
         _keysClickedCount: Int = 0,
         _mouseClickedCount: Int = 0,
@@ -27,6 +29,8 @@ public class Day (
         _timerStartsCount, _focusContextMap,
         _keysContextMap) {
 
+    val date: Date
+        get() = _date.clone()
     private val hourActivities: MutableSet<HourActivity> = HashSet()
     private var _currentHour: Int? = null
     private lateinit var _currentHourActivity: HourActivity

@@ -173,7 +173,7 @@ internal class DaysConnectionJson: DatabaseConnection<Day> {
         val rootObject = json.asJsonObject
         rootObject.entrySet().forEach {
             val day : JsonObject = it.value.asJsonObject
-            set.add(Day(date = getDayDate(day.get("date")),
+            set.add(Day(_date = getDayDate(day.get("date")),
                     _hourActivities = readHourSet(day.get("hourActivities")),
                     _mouseClickedCount = day.get("mouseClickedCount").asInt,
                     _timeSpentAfkInSec = day.get("timeSpentAfkInSec").asInt,

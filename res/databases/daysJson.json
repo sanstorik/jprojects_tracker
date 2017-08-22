@@ -1,17 +1,17 @@
 {
-  "16.8.2017": {
-    "mouseClickedCount": 67,
+  "22.8.2017": {
+    "mouseClickedCount": 8,
     "timeSpentAfkInSec": 0,
-    "timeSpentInSec": 500,
+    "timeSpentInSec": 29,
     "timerStartsCount": 0,
     "focusContext": {
-      "visitedContextMap": "{\"idea64.exe\":24250.0}"
+      "visitedContextMap": "{\"java.exe\":27250.0,\"idea64.exe\":500.0}"
     },
     "keyContext": {
-      "keyContextMap": "{\"Space\":17.0,\"Shift\":1.0,\"B\":2.0,\"Down\":1.0,\"E\":1.0,\"G\":13.0,\"H\":27.0,\"I\":1.0,\"J\":29.0,\"K\":22.0,\"L\":4.0,\"M\":2.0,\"N\":3.0,\"Comma\":3.0,\"T\":4.0,\"U\":3.0,\"Enter\":3.0,\"Y\":7.0}",
-      "clickedTotalCount": 143
+      "keyContextMap": "{}",
+      "clickedTotalCount": 0
     },
-    "date": "{\"day\":16,\"month\":8,\"year\":2017}",
+    "date": "{\"day\":22,\"month\":8,\"year\":2017}",
     "hourActivities": {
       "1": {
         "mouseClickedCount": 0,
@@ -183,29 +183,29 @@
         }
       },
       "14": {
-        "mouseClickedCount": 19,
+        "mouseClickedCount": 0,
         "timeSpentAfkInSec": 0,
         "timeSpentInSec": 0,
         "timerStartsCount": 0,
         "focusContext": {
-          "visitedContextMap": "{\"idea64.exe\":10750.0}"
+          "visitedContextMap": "{}"
         },
         "keyContext": {
-          "keyContextMap": "{\"Shift\":1.0,\"B\":1.0,\"Down\":1.0,\"T\":1.0,\"E\":1.0,\"G\":7.0,\"H\":4.0,\"Enter\":3.0,\"Y\":1.0,\"J\":6.0,\"K\":3.0}",
-          "clickedTotalCount": 29
+          "keyContextMap": "{}",
+          "clickedTotalCount": 0
         }
       },
       "15": {
-        "mouseClickedCount": 48,
+        "mouseClickedCount": 0,
         "timeSpentAfkInSec": 0,
         "timeSpentInSec": 0,
         "timerStartsCount": 0,
         "focusContext": {
-          "visitedContextMap": "{\"idea64.exe\":13500.0}"
+          "visitedContextMap": "{}"
         },
         "keyContext": {
-          "keyContextMap": "{\"Space\":17.0,\"B\":1.0,\"G\":6.0,\"H\":23.0,\"I\":1.0,\"J\":23.0,\"K\":19.0,\"L\":4.0,\"M\":2.0,\"N\":3.0,\"Comma\":3.0,\"T\":3.0,\"U\":3.0,\"Y\":6.0}",
-          "clickedTotalCount": 114
+          "keyContextMap": "{}",
+          "clickedTotalCount": 0
         }
       },
       "16": {
@@ -222,12 +222,12 @@
         }
       },
       "17": {
-        "mouseClickedCount": 0,
+        "mouseClickedCount": 8,
         "timeSpentAfkInSec": 0,
-        "timeSpentInSec": 0,
+        "timeSpentInSec": 29,
         "timerStartsCount": 0,
         "focusContext": {
-          "visitedContextMap": "{}"
+          "visitedContextMap": "{\"java.exe\":27250.0,\"idea64.exe\":500.0}"
         },
         "keyContext": {
           "keyContextMap": "{}",

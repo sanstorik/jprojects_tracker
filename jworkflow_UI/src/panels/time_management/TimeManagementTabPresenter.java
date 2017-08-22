@@ -1,5 +1,8 @@
 package panels.time_management;
 
+import activities.days.Date;
+import activities.days.Day;
+import activities.days.Days;
 import activities.projects.Project;
 import activities.projects.Projects;
 import native_hooks.ActivityGlobalListener;
@@ -12,13 +15,23 @@ class TimeManagementTabPresenter {
     private ITimeManagementView _view;
     private static final int PROJECT_NAME_MAX_CHARACTERS = 20;
     private Timer _timer;
+    private Timer _dayTimer;
     private Project _currentProject;
     private int _currentTimeSpent;
     private ActivityGlobalListener _projectListener;
+    private ActivityGlobalListener _daysListener;
+    private Day _currentDay;
+    private Date _currentDate;
     private int _chosenProjectIndex;
 
     TimeManagementTabPresenter(ITimeManagementView view) {
         _view = view;
+        _currentDay = Days.INSTANCE.getCurrentDay();
+        _currentDate = _currentDay.getDate();
+
+        _daysListener = ActivityGlobalListener.of(Days.INSTANCE.getCurrentDay());
+        _daysListener.startTracking();
+
         _timer = new Timer(1000, e -> {
             _currentProject.increaseTimeSpent(1);
             _currentTimeSpent += 1;
@@ -26,6 +39,25 @@ class TimeManagementTabPresenter {
             _view.setTimeSpentForProject(_currentProject.getTimeSpentInSec());
             Projects.INSTANCE.saveChanges();
         });
+
+        _dayTimer = new Timer(1000, e -> {
+            _currentDay.increaseTimeSpent(1);
+            if (!_currentDate.equals(Days.INSTANCE.getCurrentDay().getDate())) {
+                resetDayListener();
+            }
+            Days.INSTANCE.saveChanges();
+        });
+        _dayTimer.start();
+    }
+
+    private void resetDayListener() {
+        _daysListener.stopTracking();
+        _daysListener = ActivityGlobalListener.of(Days.INSTANCE.getCurrentDay());
+
+        _currentDay = Days.INSTANCE.getCurrentDay();
+        _currentDate = _currentDay.getDate();
+
+        _daysListener.startTracking();
     }
 
     void startTimer() {
