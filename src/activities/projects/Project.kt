@@ -1,7 +1,6 @@
 package activities.projects
 
 import activities.Activity
-import org.jetbrains.annotations.NotNull
 import java.util.*
 
 /**

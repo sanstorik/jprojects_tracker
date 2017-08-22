@@ -1,6 +1,5 @@
 package panels.time_management;
 
-import javafx.scene.control.TextFormatter;
 import panels.ChangeTabListener;
 import utils.FileUtils;
 

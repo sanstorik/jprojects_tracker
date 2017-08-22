@@ -5,11 +5,8 @@ import activities.projects.Projects;
 import native_hooks.ActivityGlobalListener;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.Timer;
 
 class TimeManagementTabPresenter {
     private ITimeManagementView _view;

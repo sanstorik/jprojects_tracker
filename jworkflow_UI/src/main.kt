@@ -1,6 +1,5 @@
 import panels.WorkflowTabbedPane
 import utils.FileUtils
-import javax.swing.ImageIcon
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 import javax.swing.UIManager
