@@ -9,5 +9,5 @@ public interface ChangeTabListener {
     /**
      * Triggered when tab is selected
      */
-    void onTabChange();
+    void onTabChanged();
 }

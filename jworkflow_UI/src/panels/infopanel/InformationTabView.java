@@ -20,11 +20,11 @@ public class InformationTabView extends TabbedPane implements ChangeTabListener 
         createGUI();
     }
 
-    @Override public void onTabChange() { /*empty*/ }
+    @Override public void onTabChanged() { /*empty*/ }
 
     private void createGUI() {
-        createTab(0, "Projects", null, new SettingsTabView());
-        createTab(1, "Days", null, new SettingsTabView());
+        createTab(0, "Projects", null, new ProjectsInformationTabView());
+        createTab(1, "Days", null, new DaysInformationTabView());
         add(_pane);
     }
 

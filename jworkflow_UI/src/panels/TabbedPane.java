@@ -12,6 +12,8 @@ public abstract class TabbedPane extends JPanel {
     protected TabbedPane() {
         super(new GridLayout(1,1));
         _pane = new JTabbedPane();
+
+        _pane.addChangeListener(e -> ((ChangeTabListener)_pane.getSelectedComponent()).onTabChanged() );
     }
 
     protected void createTab(int index, String title, Icon icon, JComponent context) {

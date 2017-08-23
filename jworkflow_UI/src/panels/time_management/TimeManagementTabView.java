@@ -1,15 +1,15 @@
 package panels.time_management;
 
 import panels.ChangeTabListener;
+import panels.GridBagHelper;
 import utils.FileUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class TimeManagementTabView extends JPanel implements ITimeManagementView, ChangeTabListener {
     private TimeManagementTabPresenter _presenter;
-    private GridBagConstraints _constraints;
+    private GridBagHelper _helper;
     private JLabel _currentTimeSpentJLabel;
     private JLabel _timeSpentForProjectJLabel;
     private JComboBox<String> _projectComboBox;
@@ -22,17 +22,18 @@ public class TimeManagementTabView extends JPanel implements ITimeManagementView
     private JButton _addProjectButton;
     private JButton _removeProjectButton;
 
+    private static final String ZERO_TIME = "00:00:00";
+
 
     public TimeManagementTabView() {
         _presenter = new TimeManagementTabPresenter(this);
-        _constraints = new GridBagConstraints();
-        setLayout(new GridBagLayout());
+        _helper = new GridBagHelper(this);
 
         createGUI();
         _presenter.fillProjectComboBox();
     }
 
-    @Override public void onTabChange() {
+    @Override public void onTabChanged() {
         _presenter.fillProjectComboBox();
     }
 
@@ -99,22 +100,21 @@ public class TimeManagementTabView extends JPanel implements ITimeManagementView
     }
 
     private void createGUI() {
-        createImage(FileUtils.loadImage("clock.png"), 0, 0, 1, new Insets(0, 30, 0, 0), 150, 150, 2);
-        _currentTimeSpentJLabel = createTimeLabel(3, 0, 1, new Insets(0, -70, 0, 0), 2, 55);
-        _timeSpentForProjectJLabel = createTimeLabel(1, 4, 1, new Insets(0, 50, 0, 0), 2, 40);
+        _helper.createImage(FileUtils.loadImage("clock.png"), 0, 0, 1, new Insets(0, 30, 0, 0), 150, 150, 2);
+        _currentTimeSpentJLabel = _helper.createLabel(ZERO_TIME, 3, 0, 1, new Insets(0, -70, 0, 0), 2, 55);
+        _timeSpentForProjectJLabel = _helper.createLabel(ZERO_TIME, 1, 4, 1, new Insets(0, 50, 0, 0), 2, 40);
 
-        JLabel label = createTimeLabel(1, 3, 1, new Insets(0, 50, 0, 0), 2, 25);
+        JLabel label = _helper.createLabel("Current project total time",  1, 3, 1, new Insets(0, 50, 0, 0), 2, 25);
         label.setFont(FileUtils.getDefaultFont(Font.BOLD, 20));
-        label.setText("Current project total time:");
 
         _projectComboBox = createProjectsChooseBox();
 
-        _renameProjectButton = createButton("Rename project", 9, 1, new Insets(0,0,0,10), e -> _presenter.renameProject());
-        _addProjectButton = createButton("Add project", 9, 2, new Insets(0,0,0,10), e -> _presenter.addProject());
-        _removeProjectButton = createButton("Remove project", 9, 3, new Insets(0,0,0,10), e -> _presenter.removeProject());
+        _renameProjectButton = _helper.createButton("Rename project", 9, 1, new Insets(0,0,0,10), e -> _presenter.renameProject());
+        _addProjectButton = _helper.createButton("Add project", 9, 2, new Insets(0,0,0,10), e -> _presenter.addProject());
+        _removeProjectButton = _helper.createButton("Remove project", 9, 3, new Insets(0,0,0,10), e -> _presenter.removeProject());
 
-        _startTimerButton = createButton("Start", 1, 1, new Insets(0,0,0,0), e -> _presenter.startTimer());
-        _stopTimerButton = createButton("Stop", 3, 1, new Insets(0,0,0,0), e -> _presenter.stopTimer());
+        _startTimerButton = _helper.createButton("Start", 1, 1, new Insets(0,0,0,0), e -> _presenter.startTimer());
+        _stopTimerButton = _helper.createButton("Stop", 3, 1, new Insets(0,0,0,0), e -> _presenter.stopTimer());
         _stopTimerButton.setEnabled(false);
     }
 
@@ -127,48 +127,12 @@ public class TimeManagementTabView extends JPanel implements ITimeManagementView
             _presenter.onProjectComboBoxPressed();
         }));
 
-        changeConstraints(GridBagConstraints.EAST, 1, 1, 9, 0, new Insets(0,0,0,10));
-        add(projects, _constraints);
+        _helper.changeConstraints(GridBagConstraints.EAST, 1, 1, 9, 0, new Insets(0,0,0,10));
+        add(projects, _helper.getConstraints());
 
         return projects;
     }
 
-
-    private JLabel createTimeLabel(int row, int column, int weightX, Insets insets, int gridWidth, int fontSize) {
-        JLabel label = new JLabel("00:00:00");
-        label.setFont(new Font("Calibri", Font.BOLD, fontSize));
-
-        changeConstraints(GridBagConstraints.WEST, weightX, 1, row, column, insets);
-        _constraints.gridwidth = gridWidth;
-        add(label, _constraints);
-
-        return label;
-    }
-
-    private void createImage(Image image, int row, int column, int weightX, Insets insets, int width, int height, int gridWidth) {
-        JLabel picLabel = new JLabel(new ImageIcon(image.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
-        picLabel.setOpaque(false);
-
-        changeConstraints(GridBagConstraints.WEST, weightX, 1, row, column, insets);
-        _constraints.gridwidth = gridWidth;
-
-        add(picLabel, _constraints);
-    }
-
-
-    private JButton createButton(String title, int row, int column, Insets insets, ActionListener actionListener) {
-        JButton button = new JButton(title);
-        button.setPreferredSize(new Dimension(200,60));
-        button.setBackground(Color.lightGray);
-        button.setFont(FileUtils.getDefaultFont(Font.BOLD, 20));
-        button.addActionListener(actionListener);
-
-        changeConstraints(GridBagConstraints.EAST, 10, 1, row, column , insets);
-
-        add(button, _constraints);
-
-        return button;
-    }
 
     /**
      * Abstraction in setting time to timer
@@ -185,16 +149,6 @@ public class TimeManagementTabView extends JPanel implements ITimeManagementView
         String seconds = secondsInt < 10 ? 0 + String.valueOf(secondsInt) : String.valueOf(secondsInt);
 
         timer.setText(String.format("%s:%s:%s", hours, minutes, seconds));
-    }
-
-    private void changeConstraints(int anchor, int weightX, int weightY, int row, int column, Insets insets) {
-        _constraints = new GridBagConstraints();
-        _constraints.anchor = anchor;
-        _constraints.weightx = weightX;
-        _constraints.weighty = weightY;
-        _constraints.gridx = row;
-        _constraints.gridy = column;
-        _constraints.insets = insets;
     }
 }
 
